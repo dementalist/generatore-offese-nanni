@@ -1,0 +1,1274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.5">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="it"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Generatore di Offese Buffe&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Definizione dei colori personalizzati per il tema scuro hi-tech */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--color-bg-dark-primary: #0A0A0A; /* Sfondo molto scuro, quasi nero */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--color-bg-dark-secondary: #1C1C1C; /* Leggermente più chiaro per card/elementi */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--color-text-light: #E0E0E0; /* Grigio chiaro per il testo principale */</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Colori per l'effetto fluido di sfondo (più tenui e armonici) */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--fluid-color-1: #202030; /* Blu/viola scuro */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--fluid-color-2: #303040; /* Blu/viola medio */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--fluid-color-3: #404050; /* Blu/viola chiaro */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--fluid-color-accent: #606080; /* Accento sottile (blu-grigio) */</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Colori per gli elementi UI (più vibranti per contrasto) */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--ui-accent-blue: #00FFFF; /* Ciano/Aqua vibrante */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--ui-accent-purple: #9933FF; /* Viola elettrico */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--ui-accent-green: #00FF99; /* Verde vibrante */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--ui-accent-pink: #F72585; /* Rosa vibrante */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--color-text-light); /* Testo chiaro su sfondo scuro */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>overflow-x: hidden; /* Evita lo scroll orizzontale */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: default; /* Cursore tradizionale bianco */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--color-bg-dark-primary); /* Sfondo di fallback */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Canvas per lo sfondo Three.js */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#background-canvas {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100vw;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: -1; /* Assicura che sia dietro tutto il contenuto */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>pointer-events: none; /* Non blocca gli eventi del mouse sul contenuto */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per il contenitore principale */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.main-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>min-height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 1; /* Assicura che il contenuto sia sopra la canvas */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per il pannello centrale */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.content-panel {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 600px; /* Larghezza massima del pannello */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--color-bg-dark-secondary);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 12px; /* rounded-xl */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Ombra più pronunciata */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 2.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid rgba(255, 255, 255, 0.08); /* Bordo sottile */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Contenitore per l'immagine del personaggio e l'emoji */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.profile-image-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 180px; /* Deve corrispondere alla larghezza dell'immagine */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 180px; /* Deve corrispondere all'altezza dell'immagine */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 auto 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per l'immagine del personaggio */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#person-image {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%; /* Occupare il 100% del contenitore */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%; /* Occupare il 100% del contenitore */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>object-fit: cover;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 4px solid #ffffff; /* Bordo BIANCO per la foto profilo */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.3s ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#person-image:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: scale(1.03); /* Piccolo ingrandimento all'hover */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per l'emoji sovrapposta */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.emoji-overlay {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bottom: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>right: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 3.5rem; /* Circa 1/10 di 180px è 18px, ma le emoji sono più grandi per essere visibili */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1; /* Rimuove spazio extra sopra e sotto l'emoji */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translate(25%, 25%); /* Sposta l'emoji leggermente fuori dall'angolo per visibilità */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 10; /* Assicura che l'emoji sia sopra l'immagine */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per il titolo (rimossi, ma mantenuti per contesto se ripristinati) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>h1 {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 2.5rem; /* Dimensione del titolo */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 2rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--ui-accent-purple); /* Colore viola per il titolo */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-shadow: 0 0 15px rgba(153, 51, 255, 0.5); /* Bagliore */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none; /* Nasconde il titolo */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per il bottone principale */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#generate-offense-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--ui-accent-purple); /* Colore accento viola */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--color-text-light);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1rem 2.5rem; /* Padding aumentato */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 9999px; /* rounded-full */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 5px 15px rgba(153, 51, 255, 0.3); /* Ombra con bagliore */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>outline: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 1.5rem; /* Spostato sotto l'offesa, quindi ha un margine superiore */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 1.5rem; /* Margine inferiore per separare dal disclaimer */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.25rem; /* Testo più grande */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#generate-offense-btn:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--ui-accent-pink); /* Cambia colore all'hover */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(-3px) scale(1.02); /* Piccolo spostamento e ingrandimento */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 8px 20px rgba(247, 37, 133, 0.5); /* Bagliore più intenso */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#generate-offense-btn:active {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(0) scale(0.98); /* Effetto click */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per l'input URL immagine (rimossi dalla visualizzazione) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.image-input-group {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none; /* Nasconde l'intero gruppo di input immagine */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per l'area di caricamento (rimossa) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#loading-area {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none; /* Nasconde l'area di caricamento */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.loading-spinner {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* Stili dello spinner non più necessari se l'area è nascosta */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per l'area dell'offesa */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#offense-display {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 1.5rem; /* Spostato sopra il bottone, quindi ha un margine inferiore */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--color-bg-dark-primary); /* Sfondo più scuro per il testo */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>/* box-shadow: 0 0 15px rgba(247, 37, 133, 0.3); /* Bagliore rimosso */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fade-in 0.5s ease-out forwards; /* Animazione di apparizione */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex; /* Per allineare testo e bottone copia */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>gap: 1rem; /* Spazio tra testo e bottone copia */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#offense-text {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.5rem; /* Dimensione testo offesa */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #ffffff; /* Colore bianco per il testo dell'offesa */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.5;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fade-in {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 0; transform: translateY(20px); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: translateY(0); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per il bottone "Copia" */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#copy-offense-btn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #ffffff; /* Colore BIANCO per il bottone copia */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--color-bg-dark-primary); /* Testo scuro per contrasto */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 0.75rem 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 9999px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); /* Ombra più chiara */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: all 0.3s ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>outline: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.9rem; /* Testo più piccolo del bottone principale */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#copy-offense-btn:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #e0e0e0; /* Leggermente più scuro all'hover */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateY(-2px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Ombra più intensa all'hover */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per il disclaimer */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.disclaimer {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.875rem; /* text-sm */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: rgba(255, 255, 255, 0.4); /* Testo grigio chiaro e trasparente */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 3rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 500px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.4;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 1;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Cursore tradizionale bianco */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: default;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Stili per l'animazione di caricamento delle icone (iniziale) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#loading-overlay {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: fixed;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: black; /* Sfondo NERO */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>z-index: 10000;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>visibility: visible;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: opacity 0.5s ease-out, visibility 0.5s ease-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#loading-overlay.hidden {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>visibility: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Contenitore per la singola icona 'X' */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#loading-icon-x-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 80px; /* Dimensione del contenitore per l'icona */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 80px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 2rem; /* Spazio tra icona e testo */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.loading-icon-x {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 70px; /* Dimensione dell'icona X */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 70px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>fill: #ffffff; /* Colore BIANCO per l'icona */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: scale(0.5); /* Inizia più piccola */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: scale-fade-in 0.8s forwards ease-out, rotate-pulse 2s infinite ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes scale-fade-in {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: scale(1); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes rotate-pulse {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>0% { transform: rotate(0deg) scale(1); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>50% { transform: rotate(180deg) scale(1.05); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>100% { transform: rotate(360deg) scale(1); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>#loading-text-initial { /* Nuovo ID per il testo di caricamento iniziale */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 1.5rem; /* Testo più grande */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: var(--color-text-light); /* Testo chiaro sul nero */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: pulse-text 2s infinite ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Nasconde il contenuto principale finché il caricamento non è completo */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#main-content {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>visibility: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: opacity 0.5s ease-out, visibility 0.5s ease-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#main-content.visible {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>visibility: visible;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="antialiased"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="loading-overlay"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="loading-icon-x-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;svg class="loading-icon-x" viewBox="0 0 24 24" fill="currentColor"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;rect x="10" y="0" width="4" height="24" transform="rotate(45 12 12)"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;rect x="10" y="0" width="4" height="24" transform="rotate(-45 12 12)"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p id="loading-text-initial"&gt;Pippo AI jokes&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;canvas id="background-canvas"&gt;&lt;/canvas&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="main-content" class="main-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="content-panel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="profile-image-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;img id="person-image" src="https://static-cdn.jtvnw.net/jtv_user_pictures/90693e3a-8eff-4d6a-b7aa-51e5a79aa58b-profile_image-70x70.png" alt="Persona"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span class="emoji-overlay" role="img" aria-label="Crazy face emoji"&gt;🤪&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="offense-display" class="hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p id="offense-text"&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="copy-offense-btn" class="hidden"&gt;Copia&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="generate-offense-btn"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Offendi Il Tuo Nanni Preferito</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="disclaimer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Disclaimer: Questo generatore è puramente a scopo umoristico e di intrattenimento. Le offese generate sono fittizie e non intendono offendere o denigrare nessuno nella realtà. Si prega di non prendere sul serio il contenuto.</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// DOM Elements</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const loadingOverlay = document.getElementById('loading-overlay');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const mainContent = document.getElementById('main-content');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const generateOffenseBtn = document.getElementById('generate-offense-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const offenseDisplay = document.getElementById('offense-display');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const offenseText = document.getElementById('offense-text');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const copyOffenseBtn = document.getElementById('copy-offense-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const personImage = document.getElementById('person-image');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Three.js Variables</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let scene, camera, renderer, material, mesh;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let mouseX = 0, mouseY = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let targetMouseX = 0, targetMouseY = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const clock = new THREE.Clock();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// List of insults (over 100 phrases)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const insults = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Obesity / Walrus / Pit</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così grande che quando ti giri, il fuso orario cambia.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Non sei grasso, hai solo un'alta densità di simpatia... e di pizza.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo BMI è più un B-M-WHY?!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando sali sulla bilancia, ti dice 'prego, uno alla volta'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei come un tricheco, ma con meno grazia in acqua e più patatine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Più che un pozzo, sei una voragine senza fondo per il cibo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua ombra ha la sua ombra, e anche quella è in sovrappeso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più pieghe tu che una fisarmonica dopo un concerto di rock.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei il motivo per cui i buffet hanno il cartello 'limite di peso'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stomaco ha un codice postale e una sua gravità.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Potresti bloccare un'autostrada con la tua sola presenza, e anche un marciapiede.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua circonferenza è un'unità di misura non standard, ma molto usata dai sarti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai il metabolismo di un bradipo in letargo perenne.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando corri, senti il rumore delle tue cosce che applaudono, e anche un po' di fiatone.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua dieta è composta principalmente da 'aria fritta' e rimpianti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Non sei un tricheco, sei un'intera colonia di trichechi in uno solo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Ti muovi così lentamente che l'erba cresce più in fretta di te.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo girovita è una leggenda metropolitana, nessuno l'ha mai visto per intero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Ti serve un carrello elevatore per fare la spesa al supermercato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così pesante che il tuo albero genealogico è crollato sotto il tuo peso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stomaco è un buco nero che attrae ogni tipo di cibo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando ti siedi, la sedia chiede pietà.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più strati tu che una cipolla, ma meno lacrime.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua taglia è 'formato famiglia' per una famiglia numerosa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unico che può fare ombra a un palazzo.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Interista</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei interista? Ah, ecco perché sei abituato a vedere le cose dall'alto... del divano.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo amore per l'Inter è l'unica cosa che non crolla mai, a differenza della loro difesa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Se sei interista, la tua vita è una continua attesa del prossimo Scudetto... o del prossimo crollo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa più prevedibile di te è la sconfitta dell'Inter nei momenti cruciali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei nato interista o sei caduto in una botte di sfortuna cosmica?",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua fede interista è come la loro difesa: inesistente e piena di buchi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei interista, spiega la differenza tra un gol e un'illusione ottica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando l'Inter vince, è un miracolo. Quando perde, è martedì... o domenica, o mercoledì.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei interista, quindi sai bene cosa significa 'mai una gioia' nella vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua squadra è come il tuo cervello: a intermittenza e con qualche corto circuito.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua sofferenza da interista è più autentica del loro palmarès recente.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così interista che il tuo colore preferito is the gray of football mediocrity.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che l'Inter ti ha insegnato è la resilienza... alla delusione costante.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua passione per l'Inter è un'offesa al buon gusto calcistico.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un interista? Scommetto che la tua unica vittoria è stata a Fantacalcio, e pure lì hai barato.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Cigarettes / Smoking</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo alito è così fresco che potresti estinguere un incendio boschivo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Fumi così tanto che i tuoi polmoni hanno la bandiera bianca e chiedono reinforzi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando tossisci, sembra che un drago stia facendo il riscaldamento per un attacco nucleare.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più catrame nei polmoni che l'asfalto della A1 dopo un temporale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unica persona che ha bisogno di un posacenere portatile per il naso, e uno per l'anima.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce è così roca che sembri un gargoyle con la bronchite cronica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Fumi così tanto che potresti essere un fumogeno umano per le partite di calcio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un pacchetto di sigarette: corta e piena di cenere, e pure un po' stropicciata.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un fumatore incallito? Scommetto che il tuo medico ti saluta con 'ciao, canna fumaria umana!'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo profumo preferito è 'cenere e rimpianto', con note di catrame.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Le tue dita sono più gialle di un evidenziatore scaduto da un decennio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più buchi nei vestiti tu che un formaggio svizzero dopo un attacco di topi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua dipendenza è così forte che fumeresti anche l'aria... se fosse commestibile.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo respiro è una minaccia per l'ozono e per chiunque ti stia vicino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un pericolo pubblico per chiunque ti stia vicino, specialmente in un ambiente chiuso.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Streamer</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Passi più tempo a parlare con una webcam che con persone vere, e la webcam non ti risponde.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua carriera da streamer è come la tua connessione: piena di lag e disconnessioni improvvise.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così famoso che hai 10 spettatori... e 8 sono tuoi parenti costretti a guardarti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo gameplay è così emozionante che fa addormentare anche i bot di Twitch.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più follower tu che un profilo fake su Instagram, e sono tutti account inattivi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua interazione con il pubblico è come la tua vita sociale: un silenzio imbarazzante rotto solo da suoni di tastiera.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei uno streamer? Scommetto che il tuo 'lavoro' consiste nel guardare il tuo riflesso sullo schermo tutto il giorno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo microfono è più pulito della tua reputazione online.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo a streamare che il tuo pubblico è composto solo da te stesso in un'altra finestra del browser.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua chat è più morta di un server di Fortnite nel 2050 dopo l'apocalisse.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo setup da gaming costa più del tuo affitto, ma il tuo reddito è zero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che streammi bene è la tua solitudine e la tua disperazione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più schermi tu che un centro di controllo aeroportuale, ma non sai dove guardare.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce da streamer è più fastidiosa di un allarme antincendio alle 3 del mattino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei uno streamer? La tua vita è un tutorial su come non avere una vita sociale.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Was a chef for 8 years</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Otto anni in cucina e l'unica cosa che hai imparato è bruciare l'acqua... e i sogni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai cucinato per 8 anni? E la gente è ancora viva? Miracolo della medicina moderna!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua cucina è un campo di battaglia, e il cibo è la vittima sacrificale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un cuoco da 8 anni? Scommetto che il tuo piatto forte è il toast bruciato accompagnato da lacrime.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più ustioni tu che un drago sputafuoco dopo una giornata intensa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua 'arte culinaria' fa rimpiangere la mensa scolastica, e non è un complimento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Otto anni di esperienza e ancora non sai distinguere il sale dallo zucchero, o la carne dal cartone.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo cibo è così innovativo che nessuno sa cosa sia, né osa assaggiarlo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un cuoco? L'unica cosa che fai bene è l'ordinazione a domicilio per gli altri.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua specialità è far sparire il cibo... nel cestino, dopo un assaggio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più storie di fallimenti in cucina che ricette riuscite, e sono tutte epiche.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia cucina è un laboratorio di esperimenti falliti, con odori sospetti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Otto anni di esperienza e il tuo cibo ha ancora il sapore di 'boh, forse è commestibile'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un cuoco? L'unica cosa che è 'gourmet' è il tuo ego smisurato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua passione per la cucina è inversamente proporzionale al gusto del tuo cibo, purtroppo.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Lived in Australia</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei stato in Australia? Ecco perché parli così strano, tra un morso di ragno e l'altro.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai vissuto in Australia? Scommetto che il tuo animale domestico era un canguro con un problema di rabbia.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'Australia ti ha reso più resistente... alle zanzare giganti e ai coccodilli.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così australiano che la tua idea di 'freddo' è 25 gradi e un cappotto leggero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più cicatrici da animali velenosi tu che un libro di storia naturale illustrato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che hai imparato in Australia è a correre veloce dagli animali che vogliono ucciderti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai vissuto in Australia? Quindi la tua colazione è Vegemite e rimpianto perenne.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei tornato dall'Australia? Hai lasciato il tuo cervello lì, vero? Non si è più visto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'Australia ti ha dato una prospettiva unica... su quante cose possono ucciderti in un solo giorno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo accento australiano è più finto di un koala che fa la dieta vegana.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più storie di incontri ravvicinati con la fauna selvatica che con persone normali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'Australia ti ha insegnato a sopravvivere... ma non a socializzare con gli esseri umani.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua nostalgia per l'Australia è più grande della tua intelligenza, il che è preoccupante.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei stato in Australia? L'unica cosa che ti è rimasta è la paura irrazionale dei ragni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo senso dell'orientamento è così pessimo che ti sei perso anche in Australia, nel deserto.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Playing with Pokémon</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei troppo vecchio per giocare a Pokémon, ma troppo giovane per avere una vita sociale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"I tuoi Pokémon sono più evoluti della tua personalità, che è rimasta a livello base.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più carte Pokémon tu che una banca, e valgono meno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che catturi sono i Pokémon, non l'attenzione delle persone reali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un allenatore Pokémon? L'unica cosa che alleni è la tua pigrizia sul divano.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"I tuoi Pokémon sono più forti delle tue argomentazioni in qualsiasi discussione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai così tanti Pokémon che potresti aprire uno zoo... di peluche impolverati.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua passione per i Pokémon è l'unica cosa che non è cresciuta con te, è rimasta infantile.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un maestro Pokémon? L'unica cosa che domini è il divano e il telecomando.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"I tuoi Pokémon sono più reali dei tuoi amici, il che dice molto sulla tua vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua conoscenza dei Pokémon è enciclopedica, la tua conoscenza del mondo reale è pari a zero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Passi più tempo a cercare Pokémon rari che a cercare un lavoro.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così ossessionato dai Pokémon che parli con loro invece che con le persone.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un gioco Pokémon: piena di creature strane e poche interazioni significative.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più badge tu che un boy scout, ma non hai mai messo piede fuori casa.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Opening soccer player stickers</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più figurine doppie tu che neuroni funzionanti, e sono tutte di portieri di riserva.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Apri figurine? L'unica cosa che trovi è la delusione e la mancanza del tuo idolo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua collezione di figurine è più grande del tuo futuro, e forse anche del tuo appartamento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più attaccanti tu che un allenatore di Serie Z, e sono tutti infortunati.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così appassionato di figurine che il tuo portafoglio piange lacrime amare.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che ti manca è il senso della realtà, e magari un attaccante forte.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più album tu che una libreria, e sono tutti incompleti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un'eterna ricerca della figurina mancante, come il senso della tua esistenza.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un collezionista di figurine? L'unica cosa che collezioni sono i fallimenti e le doppie.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia passione per le figurine è l'unica cosa che ti rende interessante... per i bambini dell'asilo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più pacchetti di figurine aperti che conversazioni significative.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua abilità nel trovare figurine rare è pari alla tua abilità nel trovare un partner.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo ad aprire figurine che potresti fare il chirurgo... ma solo per le bustine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua felicità dipende da un pezzo di carta con un calciatore sopra, che tristezza.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che ti emoziona è trovare la figurina di un difensore sconosciuto.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Nuove offese ispirate a NanniTwitch e cultura streaming/gaming</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo ping è più alto del tuo QI.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così lento che il tuo stream va a 144p anche in 5G.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più bot in chat che amici nella vita reale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua webcam ha una risoluzione migliore della tua vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo microfono è così scadente che sembri un robot sott'acqua.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più lag tu che un server di Minecraft su un tostapane.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua connessione è così instabile che ti disconnetti anche dal sonno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unico streamer che ha 0 spettatori e si lamenta dei viewer-bot.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo gameplay è così noioso che anche i tuoi follower si addormentano in live.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai una tastiera meccanica ma digiti come se avessi i guanti da forno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così scarso che anche i tutorial ti danno del filo da torcere.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua skill cap è più bassa del tuo conto in banca.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più emote tu che espressioni facciali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo sub-goal è così ambizioso che nemmeno Babbo Natale ci crede.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei il re dei 'just chatting' perché non sai giocare a niente.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia sedia da gaming costa più del tuo PC, e si vede.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più cavi tu che una centrale elettrica, ma non sai come collegarli.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stream è così pixelato che sembri un quadro di arte moderna, ma brutto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unico che riesce a farsi bannare anche da un gioco offline.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua chat è più tossica di Chernobyl, e pure più vuota.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più overlay tu che strati di cipolla, e confondono tutti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo facecam è così buio che sembri un'ombra in agguato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un pro-player... di Tetris, e pure lì perdi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua reazione alle donazioni è più finta di un sorriso in un lunedì mattina.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più cuffie tu che capelli, e le usi tutte male.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così nerd che la tua vita sociale è un DLC a pagamento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce è così acuta che spacca i vetri, e pure i timpani.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più schermi tu che un cinema multisala, ma guardi solo il tuo riflesso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo PC è così vecchio che ci gira solo il Solitario, e pure a scatti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un campione di League of Legends, ma solo contro i bot principianti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua mira è così pessima che non colpisci nemmeno un elefante in un corridoio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più skin tu che buon senso, e sono tutte brutte.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo elo è così basso che sei in classifica con i sassi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo a perdere che dovresti fare un tutorial.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua strategia di gioco è 'speriamo che vada bene', e non va mai bene.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più rage-quit tu che partite giocate fino alla fine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo microfono è così sensibile che registra anche i tuoi pensieri imbarazzanti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un maestro del clickbait, ma il tuo contenuto è vuoto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua community è così piccola che potresti fare una videochiamata di gruppo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più energy drink tu che sangue nelle vene.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua stanza sembra un negozio di elettronica usato, e pure disordinato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così pigro che anche il tuo avatar in gioco si stanca di muoversi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più debiti tu che vittorie in carriera.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo umorismo è così di nicchia che solo tu lo capisci.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un influencer, ma solo per la tua famiglia allargata.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un meme, ma di quelli che non fanno ridere nessuno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più notifiche tu che follower attivi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo setup è RGB, ma la tua personalità è in bianco e nero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così scarso che anche i tuoi avversari si annoiano a batterti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua autostima è più fragile di una connessione Wi-Fi pubblica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più bug tu che un gioco in alpha.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stream è così interattivo che la chat si parla da sola.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un collezionista di figuracce, non di figurine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua pazienza è più sottile di un capello di Nanni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più scuse tu che un politico in campagna elettorale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stile è così unico che nessuno vuole copiarlo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un'icona... del fallimento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua energia è pari a quella di una batteria scarica al 1%.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più notifiche di Twitch che messaggi veri sul telefono.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo gameplay è così prevedibile che potrei scriverci un libro, ma nessuno lo leggerebbe.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei il motivo per cui Twitch ha inventato il tasto 'segnala'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua faccia in webcam è più espressiva di un muro di cemento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più ritardi tu che un treno regionale in Italia.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo talento è così nascosto che nemmeno Google lo trova.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un campione di 'nascondino' con il successo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce è l'unica cosa che non ha bisogno di un filtro.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più crisi esistenziali tu che ore di sonno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo pubblico è così fedele che ti segue anche quando ti lavi i denti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un'ispirazione... per chi vuole fallire con stile.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua autoironia è l'unica cosa che funziona bene.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più follower falsi tu che veri.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo sorriso è più raro di un drop leggendario.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così pigro che il tuo pensiero più complesso è 'cosa mangio stasera?'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un tutorial su come non avere una vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più meme tu che argomenti di conversazione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo PC è un dinosauro, e tu sei l'archeologo che lo usa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un maestro del 'rage-quit' silenzioso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia fortuna è come il tuo Wi-Fi: debole e intermittente.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più notifiche di spam tu che complimenti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stream è più vuoto di un concerto di musica classica per adolescenti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un esperto di giochi che nessuno conosce.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua carriera è un glitch, e pure brutto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più ore su Twitch che anni di vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo sonno è un mito, come la tua produttività.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo a parlare da solo che potresti fare il comico muto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua creatività è come la tua connessione: a singhiozzo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più errori tu che un codice scritto da un bambino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo carisma è pari a quello di un comodino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un'enciclopedia di cose inutili.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un beta test, e non sta andando bene.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più snack tu che vitamine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo futuro è più incerto di un lancio di dadi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così ottimista che credi ancora nei tuoi sub-goal.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua playlist è così vecchia che ci ballavano i dinosauri.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più problemi tu che un libro di matematica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo talento è un segreto ben custodito... da te stesso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un artista della procrastinazione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua ambizione è più grande del tuo letto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più scuse tu che un avvocato senza scrupoli.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stile è così unico che fa paura.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un'opera d'arte incompresa, e pure brutta.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua motivazione è come il tuo Wi-Fi: un giorno c'è, un giorno no.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più notifiche di aggiornamento che di messaggi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stream è un esperimento sociale sul silenzio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un guru del 'non fare niente'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un bug, e non è stato ancora patchato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più caffeina tu che sangue.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo girovita è una leggenda metropolitana, nessuno l'ha mai visto per intero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua taglia è 'formato famiglia' per una famiglia numerosa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unico che può fare ombra a un palazzo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei interista? Ah, ecco perché sei abituato a vedere le cose dall'alto... del divano.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo amore per l'Inter è l'unica cosa che non crolla mai, a differenza della loro difesa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Se sei interista, la tua vita è una continua attesa del prossimo Scudetto... o del prossimo crollo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa più prevedibile di te è la sconfitta dell'Inter nei momenti cruciali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei nato interista o sei caduto in una botte di sfortuna cosmica?",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua fede interista è come la loro difesa: inesistente e piena di buchi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei interista, spiega la differenza tra un gol e un'illusione ottica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando l'Inter vince, è un miracolo. Quando perde, è martedì... o domenica, o mercoledì.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei interista, quindi sai bene cosa significa 'mai una gioia' nella vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua squadra è come il tuo cervello: a intermittenza e con qualche corto circuito.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia sofferenza da interista è più autentica del loro palmarès recente.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così interista che il tuo colore preferito is the gray of football mediocrity.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che l'Inter ti ha insegnato è la resilienza... alla delusione costante.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua passione per l'Inter è un'offesa al buon gusto calcistico.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un interista? Scommetto che la tua unica vittoria è stata a Fantacalcio, e pure lì hai barato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo alito è così fresco che potresti estinguere un incendio boschivo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Fumi così tanto che i tuoi polmoni hanno la bandiera bianca e chiedono reinforzi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando tossisci, sembra che un drago stia facendo il riscaldamento per un attacco nucleare.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più catrame nei polmoni che l'asfalto della A1 dopo un temporale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unica persona che ha bisogno di un posacenere portatile per il naso, e uno per l'anima.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce è così roca che sembri un gargoyle con la bronchite cronica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Fumi così tanto che potresti essere un fumogeno umano per le partite di calcio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un pacchetto di sigarette: corta e piena di cenere, e pure un po' stropicciata.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un fumatore incallito? Scommetto che il tuo medico ti saluta con 'ciao, canna fumaria umana!'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo profumo preferito è 'cenere e rimpianto', con note di catrame.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Le tue dita sono più gialle di un evidenziatore scaduto da un decennio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più buchi nei vestiti tu che un formaggio svizzero dopo un attacco di topi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua dipendenza è così forte che fumeresti anche l'aria... se fosse commestibile.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo respiro è una minaccia per l'ozono e per chiunque ti stia vicino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un pericolo pubblico per chiunque ti stia vicino, specialmente in un ambiente chiuso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Passi più tempo a parlare con una webcam che con persone vere, e la webcam non ti risponde.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua carriera da streamer è come la tua connessione: piena di lag e disconnessioni improvvise.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così famoso che hai 10 spettatori... e 8 sono tuoi parenti costretti a guardarti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo gameplay è così emozionante che fa addormentare anche i bot di Twitch.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più follower tu che un profilo fake su Instagram, e sono tutti account inattivi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua interazione con il pubblico è come la tua vita sociale: un silenzio imbarazzante rotto solo da suoni di tastiera.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei uno streamer? Scommetto che il tuo 'lavoro' consiste nel guardare il tuo riflesso sullo schermo tutto il giorno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo microfono è più pulito della tua reputazione online.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo a streamare che il tuo pubblico è composto solo da te stesso in un'altra finestra del browser.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua chat è più morta di un server di Fortnite nel 2050 dopo l'apocalisse.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo setup da gaming costa più del tuo affitto, ma il tuo reddito è zero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che streammi bene è la tua solitudine e la tua disperazione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più schermi tu che un centro di controllo aeroportuale, ma non sai dove guardare.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce da streamer è più fastidiosa di un allarme antincendio alle 3 del mattino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei uno streamer? La tua vita è un tutorial su come non avere una vita sociale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Otto anni in cucina e l'unica cosa che hai imparato è bruciare l'acqua... e i sogni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai cucinato per 8 anni? E la gente è ancora viva? Miracolo della medicina moderna!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua cucina è un campo di battaglia, e il cibo è la vittima sacrificale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un cuoco da 8 anni? Scommetto che il tuo piatto forte è il toast bruciato accompagnato da lacrime.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più ustioni tu che un drago sputafuoco dopo una giornata intensa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua 'arte culinaria' fa rimpiangere la mensa scolastica, e non è un complimento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Otto anni di esperienza e ancora non sai distinguere il sale dallo zucchero, o la carne dal cartone.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo cibo è così innovativo che nessuno sa cosa sia, né osa assaggiarlo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un cuoco? L'unica cosa che fai bene è l'ordinazione a domicilio per gli altri.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua specialità è far sparire il cibo... nel cestino, dopo un assaggio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più storie di fallimenti in cucina che ricette riuscite, e sono tutte epiche.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia cucina è un laboratorio di esperimenti falliti, con odori sospetti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Otto anni di esperienza e il tuo cibo ha ancora il sapore di 'boh, forse è commestibile'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un cuoco? L'unica cosa che è 'gourmet' è il tuo ego smisurato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua passione per la cucina è inversamente proporzionale al gusto del tuo cibo, purtroppo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei stato in Australia? Ecco perché parli così strano, tra un morso di ragno e l'altro.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai vissuto in Australia? Scommetto che il tuo animale domestico era un canguro con un problema di rabbia.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'Australia ti ha reso più resistente... alle zanzare giganti e ai coccodilli.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così australiano che la tua idea di 'freddo' è 25 gradi e un cappotto leggero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più cicatrici da animali velenosi tu che un libro di storia naturale illustrato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che hai imparato in Australia è a correre veloce dagli animali che vogliono ucciderti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai vissuto in Australia? Quindi la tua colazione è Vegemite e rimpianto perenne.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei tornato dall'Australia? Hai lasciato il tuo cervello lì, vero? Non si è più visto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'Australia ti ha dato una prospettiva unica... su quante cose possono ucciderti in un solo giorno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo accento australiano è più finto di un koala che fa la dieta vegana.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più storie di incontri ravvicinati con la fauna selvatica che con persone normali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'Australia ti ha insegnato a sopravvivere... ma non a socializzare con gli esseri umani.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua nostalgia per l'Australia è più grande della tua intelligenza, il che è preoccupante.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei stato in Australia? L'unica cosa che ti è rimasta è la paura irrazionale dei ragni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo senso dell'orientamento è così pessimo che ti sei perso anche in Australia, nel deserto.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Playing with Pokémon</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei troppo vecchio per giocare a Pokémon, ma troppo giovane per avere una vita sociale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"I tuoi Pokémon sono più evoluti della tua personalità, che è rimasta a livello base.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più carte Pokémon tu che una banca, e valgono meno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che catturi sono i Pokémon, non l'attenzione delle persone reali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un allenatore Pokémon? L'unica cosa che alleni è la tua pigrizia sul divano.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"I tuoi Pokémon sono più forti delle tue argomentazioni in qualsiasi discussione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai così tanti Pokémon che potresti aprire uno zoo... di peluche impolverati.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua passione per i Pokémon è l'unica cosa che non è cresciuta con te, è rimasta infantile.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un maestro Pokémon? L'unica cosa che domini è il divano e il telecomando.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"I tuoi Pokémon sono più reali dei tuoi amici, il che dice molto sulla tua vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua conoscenza dei Pokémon è enciclopedica, la tua conoscenza del mondo reale è pari a zero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Passi più tempo a cercare Pokémon rari che a cercare un lavoro.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così ossessionato dai Pokémon che parli con loro invece che con le persone.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un gioco Pokémon: piena di creature strane e poche interazioni significative.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più badge tu che un boy scout, ma non hai mai messo piede fuori casa.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Opening soccer player stickers</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più figurine doppie tu che neuroni funzionanti, e sono tutte di portieri di riserva.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Apri figurine? L'unica cosa che trovi è la delusione e la mancanza del tuo idolo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua collezione di figurine è più grande del tuo futuro, e forse anche del tuo appartamento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più attaccanti tu che un allenatore di Serie Z, e sono tutti infortunati.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così appassionato di figurine che il tuo portafoglio piange lacrime amare.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che ti manca è il senso della realtà, e magari un attaccante forte.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più album tu che una libreria, e sono tutti incompleti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un'eterna ricerca della figurina mancante, come il senso della tua esistenza.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un collezionista di figurine? L'unica cosa che collezioni sono i fallimenti e le doppie.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia passione per le figurine è l'unica cosa che ti rende interessante... per i bambini dell'asilo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più pacchetti di figurine aperti che conversazioni significative.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua abilità nel trovare figurine rare è pari alla tua abilità nel trovare un partner.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo ad aprire figurine che potresti fare il chirurgo... ma solo per le bustine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua felicità dipende da un pezzo di carta con un calciatore sopra, che tristezza.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che ti emoziona è trovare la figurina di un difensore sconosciuto.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Nuove offese ispirate a NanniTwitch e cultura streaming/gaming</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo ping è più alto del tuo QI.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così lento che il tuo stream va a 144p anche in 5G.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più bot in chat che amici nella vita reale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua webcam ha una risoluzione migliore della tua vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo microfono è così scadente che sembri un robot sott'acqua.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più lag tu che un server di Minecraft su un tostapane.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua connessione è così instabile che ti disconnetti anche dal sonno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unico streamer che ha 0 spettatori e si lamenta dei viewer-bot.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo gameplay è così noioso che anche i tuoi follower si addormentano in live.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai una tastiera meccanica ma digiti come se avessi i guanti da forno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così scarso che anche i tutorial ti danno del filo da torcere.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua skill cap è più bassa del tuo conto in banca.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più emote tu che espressioni facciali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo sub-goal è così ambizioso che nemmeno Babbo Natale ci crede.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei il re dei 'just chatting' perché non sai giocare a niente.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia sedia da gaming costa più del tuo PC, e si vede.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più cavi tu che una centrale elettrica, ma non sai come collegarli.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stream è così pixelato che sembri un quadro di arte moderna, ma brutto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unico che riesce a farsi bannare anche da un gioco offline.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua chat è più tossica di Chernobyl, e pure più vuota.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più overlay tu che strati di cipolla, e confondono tutti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo facecam è così buio che sembri un'ombra in agguato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un pro-player... di Tetris, e pure lì perdi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua reazione alle donazioni è più finta di un sorriso in un lunedì mattina.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più cuffie tu che capelli, e le usi tutte male.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così nerd che la tua vita sociale è un DLC a pagamento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce è così acuta che spacca i vetri, e pure i timpani.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più schermi tu che un cinema multisala, ma guardi solo il tuo riflesso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo PC è così vecchio che ci gira solo il Solitario, e pure a scatti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un campione di League of Legends, ma solo contro i bot principianti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua mira è così pessima che non colpisci nemmeno un elefante in un corridoio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più skin tu che buon senso, e sono tutte brutte.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo elo è così basso che sei in classifica con i sassi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo a perdere che dovresti fare un tutorial.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua strategia di gioco è 'speriamo che vada bene', e non va mai bene.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più rage-quit tu che partite giocate fino alla fine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo microfono è così sensibile che registra anche i tuoi pensieri imbarazzanti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un maestro del clickbait, ma il tuo contenuto è vuoto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua community è così piccola che potresti fare una videochiamata di gruppo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più energy drink tu che sangue nelle vene.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua stanza sembra un negozio di elettronica usato, e pure disordinato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così pigro che anche il tuo avatar in gioco si stanca di muoversi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più debiti tu che vittorie in carriera.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo umorismo è così di nicchia che solo tu lo capisci.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un influencer, ma solo per la tua famiglia allargata.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un meme, ma di quelli che non fanno ridere nessuno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più notifiche tu che follower attivi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo setup è RGB, ma la tua personalità è in bianco e nero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così scarso che anche i tuoi avversari si annoiano a batterti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua autostima è più fragile di una connessione Wi-Fi pubblica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più bug tu che un gioco in alpha.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stream è così interattivo che la chat si parla da sola.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un collezionista di figuracce, non di figurine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua pazienza è più sottile di un capello di Nanni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più scuse tu che un politico in campagna elettorale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stile è così unico che nessuno vuole copiarlo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un'icona... del fallimento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua energia è pari a quella di una batteria scarica al 1%.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più notifiche di Twitch che messaggi veri sul telefono.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo gameplay è così prevedibile che potrei scriverci un libro, ma nessuno lo leggerebbe.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei il motivo per cui Twitch ha inventato il tasto 'segnala'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua faccia in webcam è più espressiva di un muro di cemento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più ritardi tu che un treno regionale in Italia.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo talento è così nascosto che nemmeno Google lo trova.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un campione di 'nascondino' con il successo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce è l'unica cosa che non ha bisogno di un filtro.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più crisi esistenziali tu che ore di sonno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo pubblico è così fedele che ti segue anche quando ti lavi i denti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un'ispirazione... per chi vuole fallire con stile.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua autoironia è l'unica cosa che funziona bene.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più follower falsi tu che veri.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo sorriso è più raro di un drop leggendario.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così pigro che il tuo pensiero più complesso è 'cosa mangio stasera?'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un tutorial su come non avere una vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più meme tu che argomenti di conversazione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo PC è un dinosauro, e tu sei l'archeologo che lo usa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un maestro del 'rage-quit' silenzioso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia fortuna è come il tuo Wi-Fi: debole e intermittente.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più notifiche di spam tu che complimenti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stream è più vuoto di un concerto di musica classica per adolescenti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un esperto di giochi che nessuno conosce.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua carriera è un glitch, e pure brutto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più ore su Twitch che anni di vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo sonno è un mito, come la tua produttività.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo a parlare da solo che potresti fare il comico muto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua creatività è come la tua connessione: a singhiozzo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più errori tu che un codice scritto da un bambino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo carisma è pari a quello di un comodino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un'enciclopedia di cose inutili.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un beta test, e non sta andando bene.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più snack tu che vitamine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo futuro è più incerto di un lancio di dadi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così ottimista che credi ancora nei tuoi sub-goal.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua playlist è così vecchia che ci ballavano i dinosauri.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più problemi tu che un libro di matematica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo talento è un segreto ben custodito... da te stesso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un artista della procrastinazione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua ambizione è più grande del tuo letto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più scuse tu che un avvocato senza scrupoli.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stile è così unico che fa paura.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un'opera d'arte incompresa, e pure brutta.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua motivazione è come il tuo Wi-Fi: un giorno c'è, un giorno no.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più notifiche di aggiornamento che di messaggi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo stream è un esperimento sociale sul silenzio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un guru del 'non fare niente'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un bug, e non è stato ancora patchato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più caffeina tu che sangue.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo girovita è una leggenda metropolitana, nessuno l'ha mai visto per intero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua taglia è 'formato famiglia' per una famiglia numerosa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unico che può fare ombra a un palazzo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei interista? Ah, ecco perché sei abituato a vedere le cose dall'alto... del divano.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo amore per l'Inter è l'unica cosa che non crolla mai, a differenza della loro difesa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Se sei interista, la tua vita è una continua attesa del prossimo Scudetto... o del prossimo crollo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa più prevedibile di te è la sconfitta dell'Inter nei momenti cruciali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei nato interista o sei caduto in una botte di sfortuna cosmica?",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua fede interista è come la loro difesa: inesistente e piena di buchi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei interista, spiega la differenza tra un gol e un'illusione ottica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando l'Inter vince, è un miracolo. Quando perde, è martedì... o domenica, o mercoledì.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei interista, quindi sai bene cosa significa 'mai una gioia' nella vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua squadra è come il tuo cervello: a intermittenza e con qualche corto circuito.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia sofferenza da interista è più autentica del loro palmarès recente.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così interista che il tuo colore preferito is the gray of football mediocrity.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che l'Inter ti ha insegnato è la resilienza... alla delusione costante.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua passione per l'Inter è un'offesa al buon gusto calcistico.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un interista? Scommetto che la tua unica vittoria è stata a Fantacalcio, e pure lì hai barato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo alito è così fresco che potresti estinguere un incendio boschivo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Fumi così tanto che i tuoi polmoni hanno la bandiera bianca e chiedono reinforzi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando tossisci, sembra che un drago stia facendo il riscaldamento per un attacco nucleare.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più catrame nei polmoni che l'asfalto della A1 dopo un temporale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unica persona che ha bisogno di un posacenere portatile per il naso, e uno per l'anima.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce è così roca che sembri un gargoyle con la bronchite cronica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Fumi così tanto che potresti essere un fumogeno umano per le partite di calcio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un pacchetto di sigarette: corta e piena di cenere, e pure un po' stropicciata.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un fumatore incallito? Scommetto che il tuo medico ti saluta con 'ciao, canna fumaria umana!'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo profumo preferito è 'cenere e rimpianto', con note di catrame.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Le tue dita sono più gialle di un evidenziatore scaduto da un decennio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più buchi nei vestiti tu che un formaggio svizzero dopo un attacco di topi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua dipendenza è così forte che fumeresti anche l'aria... se fosse commestibile.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo respiro è una minaccia per l'ozono e per chiunque ti stia vicino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un pericolo pubblico per chiunque ti stia vicino, specialmente in un ambiente chiuso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Passi più tempo a parlare con una webcam che con persone vere, e la webcam non ti risponde.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua carriera da streamer è come la tua connessione: piena di lag e disconnessioni improvvise.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così famoso che hai 10 spettatori... e 8 sono tuoi parenti costretti a guardarti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo gameplay è così emozionante che fa addormentare anche i bot di Twitch.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più follower tu che un profilo fake su Instagram, e sono tutti account inattivi.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua interazione con il pubblico è come la tua vita sociale: un silenzio imbarazzante rotto solo da suoni di tastiera.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei uno streamer? Scommetto che il tuo 'lavoro' consiste nel guardare il tuo riflesso sullo schermo tutto il giorno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo microfono è più pulito della tua reputazione online.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo a streamare che il tuo pubblico è composto solo da te stesso in un'altra finestra del browser.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua chat è più morta di un server di Fortnite nel 2050 dopo l'apocalisse.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo setup da gaming costa più del tuo affitto, ma il tuo reddito è zero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che streammi bene è la tua solitudine e la tua disperazione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più schermi tu che un centro di controllo aeroportuale, ma non sai dove guardare.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua voce da streamer è più fastidiosa di un allarme antincendio alle 3 del mattino.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei uno streamer? La tua vita è un tutorial su come non avere una vita sociale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Otto anni in cucina e l'unica cosa che hai imparato è bruciare l'acqua... e i sogni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai cucinato per 8 anni? E la gente è ancora viva? Miracolo della medicina moderna!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua cucina è un campo di battaglia, e il cibo è la vittima sacrificale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un cuoco da 8 anni? Scommetto che il tuo piatto forte è il toast bruciato accompagnato da lacrime.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più ustioni tu che un drago sputafuoco dopo una giornata intensa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua 'arte culinaria' fa rimpiangere la mensa scolastica, e non è un complimento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Otto anni di esperienza e ancora non sai distinguere il sale dallo zucchero, o la carne dal cartone.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo cibo è così innovativo che nessuno sa cosa sia, né osa assaggiarlo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un cuoco? L'unica cosa che fai bene è l'ordinazione a domicilio per gli altri.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua specialità è far sparire il cibo... nel cestino, dopo un assaggio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più storie di fallimenti in cucina che ricette riuscite, e sono tutte epiche.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia cucina è un laboratorio di esperimenti falliti, con odori sospetti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Otto anni di esperienza e il tuo cibo ha ancora il sapore di 'boh, forse è commestibile'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un cuoco? L'unica cosa che è 'gourmet' è il tuo ego smisurato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua passione per la cucina è inversamente proporzionale al gusto del tuo cibo, purtroppo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei stato in Australia? Ecco perché parli così strano, tra un morso di ragno e l'altro.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai vissuto in Australia? Scommetto che il tuo animale domestico era un canguro con un problema di rabbia.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'Australia ti ha reso più resistente... alle zanzare giganti e ai coccodilli.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così australiano che la tua idea di 'freddo' è 25 gradi e un cappotto leggero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più cicatrici da animali velenosi tu che un libro di storia naturale illustrato.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che hai imparato in Australia è a correre veloce dagli animali che vogliono ucciderti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai vissuto in Australia? Quindi la tua colazione è Vegemite e rimpianto perenne.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei tornato dall'Australia? Hai lasciato il tuo cervello lì, vero? Non si è più visto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'Australia ti ha dato una prospettiva unica... su quante cose possono ucciderti in un solo giorno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo accento australiano è più finto di un koala che fa la dieta vegana.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più storie di incontri ravvicinati con la fauna selvatica che con persone normali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'Australia ti ha insegnato a sopravvivere... ma non a socializzare con gli esseri umani.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua nostalgia per l'Australia è più grande della tua intelligenza, il che è preoccupante.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei stato in Australia? L'unica cosa che ti è rimasta è la paura irrazionale dei ragni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo senso dell'orientamento è così pessimo che ti sei perso anche in Australia, nel deserto.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Playing with Pokémon</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei troppo vecchio per giocare a Pokémon, ma troppo giovane per avere una vita sociale.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"I tuoi Pokémon sono più evoluti della tua personalità, che è rimasta a livello base.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più carte Pokémon tu che una banca, e valgono meno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che catturi sono i Pokémon, non l'attenzione delle persone reali.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un allenatore Pokémon? L'unica cosa che alleni è la tua pigrizia sul divano.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"I tuoi Pokémon sono più forti delle tue argomentazioni in qualsiasi discussione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai così tanti Pokémon che potresti aprire uno zoo... di peluche impolverati.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua passione per i Pokémon è l'unica cosa che non è cresciuta con te, è rimasta infantile.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un maestro Pokémon? L'unica cosa che domini è il divano e il telecomando.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"I tuoi Pokémon sono più reali dei tuoi amici, il che dice molto sulla tua vita.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua conoscenza dei Pokémon è enciclopedica, la tua conoscenza del mondo reale è pari a zero.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Passi più tempo a cercare Pokémon rari che a cercare un lavoro.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così ossessionato dai Pokémon che parli con loro invece che con le persone.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un gioco Pokémon: piena di creature strane e poche interazioni significative.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più badge tu che un boy scout, ma non hai mai messo piede fuori casa.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più figurine doppie tu che neuroni funzionanti, e sono tutte di portieri di riserva.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Apri figurine? L'unica cosa che trovi è la delusione e la mancanza del tuo idolo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua collezione di figurine è più grande del tuo futuro, e forse anche del tuo appartamento.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più attaccanti tu che un allenatore di Serie Z, e sono tutti infortunati.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così appassionato di figurine che il tuo portafoglio piange lacrime amare.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che ti manca è il senso della realtà, e magari un attaccante forte.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più album tu che una libreria, e sono tutti incompleti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un'eterna ricerca della figurina mancante, come il senso della tua esistenza.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei un collezionista di figurine? L'unica cosa che collezioni sono i fallimenti e le doppie.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Laia passione per le figurine è l'unica cosa che ti rende interessante... per i bambini dell'asilo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più pacchetti di figurine aperti che conversazioni significative.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua abilità nel trovare figurine rare è pari alla tua abilità nel trovare un partner.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo ad aprire figurine che potresti fare il chirurgo... ma solo per le bustine.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua felicità dipende da un pezzo di carta con un calciatore sopra, che tristezza.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa che ti emoziona è trovare la figurina di un difensore sconosciuto.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Battute a tema gay (aggiunte)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così etero che non sai distinguere un arcobaleno da un semaforo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è così dritta che non hai mai preso una curva, nemmeno in macchina.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così 'maschio' che ti spaventi del rosa... e dei gatti.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Il tuo senso dello stile è così basic che anche un armadio di un etero cisgender ti fa concorrenza.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così poco gay che non sai nemmeno cosa sia un brunch.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua idea di 'diversità' è scegliere tra due gusti di gelato alla vaniglia.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così etero che pensi che Lady Gaga sia un uomo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più bandiere tu che un raduno di scout, ma nessuna è arcobaleno.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita sentimentale è così piatta che sembra una linea retta su un elettrocardiogramma.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così 'normale' che la tua unica trasgressione è non mettere il calzino sinistro per primo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua playlist è così etero che include solo canzoni sull'amore non corrisposto e il rock classico.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così poco gay che non sai nemmeno chi sia RuPaul.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua idea di un weekend divertente è guardare il calcio e lamentarti del traffico.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così etero che pensi che 'coming out' sia uscire di casa per comprare il pane.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più paure tu che un bambino al buio, e una di queste è il Pride Month.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così etero che ti senti a disagio anche a guardare due uomini che si stringono la mano in un film.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è così poco colorata che sembra un film in bianco e nero degli anni '50.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così etero che non capisci perché qualcuno dovrebbe volere più di un paio di scarpe.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più pregiudizi tu che un libro di storia riscritto da un negazionista.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua mente è così chiusa che sembra una cassaforte senza combinazione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così etero che pensi che 'gender fluid' sia un nuovo tipo di lubrificante per auto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua empatia è così limitata che non riesci a capire chi è diverso da te.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così poco gay che non hai mai ballato su una canzone di Cher.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è così noiosa che l'unico dramma che hai è quando finisce il latte.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più convinzioni tu che un fanatico religioso, e sono tutte sbagliate.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così etero che non sai cosa sia un 'drag queen' se non un camionista travestito.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua apertura mentale è così stretta che non ci passa nemmeno un capello.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così poco gay che non hai mai usato una parola come 'slay' o 'werk'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua vita è un manuale di istruzioni, e non è nemmeno interessante da leggere.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più schemi mentali tu che un architetto, e sono tutti rigidi e obsoleti.",</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Nuove battute su Nanni e le sue opinioni</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, le tue opinioni sono così uniche che nemmeno la gravità le prende sul serio.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando Nanni esprime un'opinione, il resto del mondo si chiede se abbiamo saltato una puntata della realtà.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Le teorie di Nanni sono come i buchi neri: affascinanti, ma nessuno sa cosa ci sia dentro... o se abbiano senso.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, hai più complotti in testa tu che un thriller di serie B.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così convinto delle tue idee che potresti vendere ghiaccio agli eschimesi, ma solo se credono che sia acqua solidificata da alieni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"L'unica cosa più prevedibile delle tue opinioni è che saranno l'esatto contrario di tutto il resto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, il tuo punto di vista è così 'alternativo' che la realtà ti ha mandato una diffida.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando Nanni parla, la logica si prende un giorno di ferie non retribuite.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Le tue argomentazioni sono come i tuoi sogni: solo tu le capisci, e pure a fatica.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, hai più certezze tu che un terrapiattista, e sono altrettanto fondate.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei l'unico che può trasformare una discussione sul meteo in una polemica sulla cospirazione delle nuvole.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Le tue opinioni sono come i tuoi calzini spaiati: esistono, ma nessuno sa perché.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, la tua mente è un labirinto di idee che portano tutte a 'io ho ragione e voi no'.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più teorie stravaganti tu che un professore universitario in pensione e senza freni.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando Nanni dice 'secondo me...', il mondo intero si prepara al colpo di scena più illogico della giornata.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua capacità di trovare il pelo nell'uovo è così sviluppata che potresti fare l'investigatore di complotti culinari.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, le tue opinioni sono come le previsioni del tempo: spesso sbagliate, ma dette con convinzione.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sei così bravo a creare polemiche che dovresti aprire un canale TV dedicato solo a te.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua visione del mondo è così unica che dovresti brevettarla, ma nessuno la comprerebbe.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, hai più convinzioni tu che un politico in campagna elettorale, e sono tutte slegate dalla realtà.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Quando Nanni ha un'idea, la realtà si mette le mani nei capelli e si chiede 'perché a me?'",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Le tue opinioni sono come i tuoi vestiti: unici, ma a volte un po' fuori luogo.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, sei l'unico che può discutere con uno specchio e uscirne convinto di aver vinto.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Hai più polemiche in corpo tu che un forum di discussione su internet impazzito.",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"La tua mente è un universo parallelo dove le tue opinioni sono sempre la verità assoluta, e il resto è un'illusione."</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Alternative texts for the "Generate Offense" button</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const alternativeButtonTexts = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Riprova",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Più cattivo",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Di nuovo dai",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"... pefforza",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Ancora!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Sforzati di più",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Dai, fammi ridere",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Non mi basta!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Un'altra!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Spingiti oltre",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, dacci dentro!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Nanni, stupiscimi!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Tira fuori il Nanni che è in te!",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"Offesa Nanni-style!"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentButtonTextIndex = 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Function to update the "Generate Offense" button text</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateGenerateButtonText() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>generateOffenseBtn.textContent = alternativeButtonTexts[currentButtonTextIndex];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentButtonTextIndex = (currentButtonTextIndex + 1) % alternativeButtonTexts.length;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Event listener for the "Generate Offense" button</p>
+<p class="p1"><span class="Apple-converted-space">        </span>generateOffenseBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Nasconde l'offesa precedente e il bottone copia prima di generarne una nuova</p>
+<p class="p1"><span class="Apple-converted-space">            </span>offenseDisplay.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>copyOffenseBtn.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>generateOffenseBtn.disabled = true; // Disabilita il bottone durante la generazione</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Genera un'offesa casuale istantaneamente</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const randomIndex = Math.floor(Math.random() * insults.length);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>offenseText.textContent = insults[randomIndex];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Mostra l'area dell'offesa e il bottone copia</p>
+<p class="p1"><span class="Apple-converted-space">            </span>offenseDisplay.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>copyOffenseBtn.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>generateOffenseBtn.disabled = false; // Riabilita il bottone</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>updateGenerateButtonText(); // Cambia il testo del bottone</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Event listener for the "Copy" button</p>
+<p class="p1"><span class="Apple-converted-space">        </span>copyOffenseBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const textToCopy = offenseText.textContent;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const tempInput = document.createElement('textarea');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>tempInput.value = textToCopy;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.body.appendChild(tempInput);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>tempInput.select();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.execCommand('copy');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.body.removeChild(tempInput);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Optional: visual feedback for copying</p>
+<p class="p1"><span class="Apple-converted-space">            </span>copyOffenseBtn.textContent = 'Copiato!';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>copyOffenseBtn.textContent = 'Copia';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, 1500);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Funzioni per il cursore personalizzato (rimosse)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function initializeCustomCursor() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Non fa nulla, il cursore è gestito dal CSS del body</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Shader per l'effetto fluido/olografico (come in Maalavidaa)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const vertexShader = `</p>
+<p class="p1"><span class="Apple-converted-space">            </span>void main() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fragmentShader = `</p>
+<p class="p1"><span class="Apple-converted-space">            </span>uniform float u_time;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>uniform vec2 u_mouse;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>uniform vec2 u_resolution;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>uniform vec3 u_fluid_color_1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>uniform vec3 u_fluid_color_2;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>uniform vec3 u_fluid_color_3;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>uniform vec3 u_fluid_color_accent;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>uniform vec3 u_color_bg_dark_primary;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Simplex noise function (from https://github.com/ashima/webgl-noise/blob/master/src/noise3D.glsl)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>float snoise(vec3 v){</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const vec2<span class="Apple-converted-space">  </span>C = vec2(1.0/6.0, 1.0/3.0) ;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const vec4<span class="Apple-converted-space">  </span>D = vec4(0.0, 0.5, 1.0, 2.0);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// First corner</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 i<span class="Apple-converted-space">  </span>= floor(v + dot(v, C.yyy) );</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 x0 = <span class="Apple-converted-space">  </span>v - i + dot(i, C.xxx) ;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Other corners</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 g = step(x0.yzx, x0.xyz);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 l = 1.0 - g;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 i1 = min( g.xyz, l.zxy );</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 i2 = max( g.xyz, l.zxy );</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 x1 = x0 - i1 + C.xxx;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 x2 = x0 - i2 + C.yyy;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 x3 = x0 - D.yyy;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Permutations</p>
+<p class="p1"><span class="Apple-converted-space">                </span>i = mod(i, 289.0 );</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 p = permute( permute( permute(</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>i.z + vec4(0.0, i1.z, i2.z, 1.0 ))</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>+ i.y + vec4(0.0, i1.y, i2.y, 1.0 ))</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>+ i.x + vec4(0.0, i1.x, i2.x, 1.0 ));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Gradients: 7x7 points over a square, mapped onto an octahedron.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 j4 = 4.0 * sin(p/7.0);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 gx = j4 * 0.005 + 0.001;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 gy = j4 * 0.005 + 0.001;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 gz = j4 * 0.005 + 0.001;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 g0 = vec4(gx.x,gy.x,gz.x,0.0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 g1 = vec4(gx.y,gy.y,gz.y,0.0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 g2 = vec4(gx.z,gy.z,gz.z,0.0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 g3 = vec4(gx.w,gy.w,gz.w,0.0);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 nz = taylorInvSqrt(vec4(dot(g0.xyz,g0.xyz), dot(g1.xyz,g1.xyz), dot(g2.xyz,g2.xyz), dot(g3.xyz,g3.xyz)));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>g0.xyz *= nz.x;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>g1.xyz *= nz.y;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>g2.xyz *= nz.z;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>g3.xyz *= nz.w;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>//<span class="Apple-converted-space">  </span>Dot products for the 4 corners</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec4 m = max(0.5 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>m = m * m;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return 105.0 * dot( m*m, vec4( dot(x0,g0.xyz), dot(x1,g1.xyz),</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>dot(x2,g2.xyz), dot(x3,g3.xyz) ) );</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>void main() {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec2 uv = gl_FragCoord.xy / u_resolution.xy;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec2 p = uv * 2.0 - 1.0; // Normalizza a -1 a 1</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Aggiungi influenza del mouse, scalata e smussata</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec2 mouse_influence = (u_mouse - 0.5) * 0.2; // Centra il mouse e scala l'influenza</p>
+<p class="p1"><span class="Apple-converted-space">                </span>p += mouse_influence;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Anima strati di rumore per un effetto fluido e organico</p>
+<p class="p1"><span class="Apple-converted-space">                </span>float n1 = snoise(vec3(p * 2.0 + mouse_influence * 1.0, u_time * 0.08));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>float n2 = snoise(vec3(p * 4.0 - mouse_influence * 1.5, u_time * 0.12 + 10.0));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>float n3 = snoise(vec3(p * 8.0 + mouse_influence * 0.7, u_time * 0.18 + 20.0));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>float n4 = snoise(vec3(p * 16.0 - mouse_influence * 2.0, u_time * 0.25 + 30.0));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Combina i livelli di rumore per un effetto più complesso e "liquido"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>float fluid = n1 * 0.4 + n2 * 0.3 + n3 * 0.2 + n4 * 0.1;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fluid = fluid * 0.5 + 0.5; // Normalizza a 0-1</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Mappa il valore fluido ai colori della palette più tenui</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vec3 finalColor = mix(u_fluid_color_1, u_fluid_color_2, smoothstep(0.0, 0.5, fluid));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>finalColor = mix(finalColor, u_fluid_color_3, smoothstep(0.5, 1.0, fluid));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Aggiungi un accento di colore sottile basato su un altro strato di rumore</p>
+<p class="p1"><span class="Apple-converted-space">                </span>float accentNoise = snoise(vec3(p * 1.5, u_time * 0.03 + 50.0));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>finalColor = mix(finalColor, u_fluid_color_accent, smoothstep(0.8, 1.0, accentNoise));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Sfuma con il colore di sfondo scuro per un effetto più profondo e meno saturo</p>
+<p class="p1"><span class="Apple-converted-space">                </span>finalColor = mix(finalColor, u_color_bg_dark_primary, 0.4); // Regola il fattore di fusione per l'intensità</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>gl_FragColor = vec4(finalColor, 1.0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Funzione per inizializzare la scena Three.js</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function initThreeJS() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const canvas = document.getElementById('background-canvas');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 1. Scena</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scene = new THREE.Scene();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 2. Camera (Orthographic per 2D che copre lo schermo)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>camera.position.z = 1;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 3. Renderer</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderer = new THREE.WebGLRenderer({ antialias: true, canvas: canvas });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderer.setSize(window.innerWidth, window.innerHeight);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderer.setPixelRatio(window.devicePixelRatio);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 4. Geometria (Un semplice piano che copre l'intera vista)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const geometry = new THREE.PlaneGeometry(2, 2); // Un piano di 2x2 unità</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 5. Materiale Shader</p>
+<p class="p1"><span class="Apple-converted-space">            </span>material = new THREE.ShaderMaterial({</p>
+<p class="p1"><span class="Apple-converted-space">                </span>uniforms: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>u_time: { value: 0.0 },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>u_mouse: { value: new THREE.Vector2(0.5, 0.5) }, // Normalizzato da 0 a 1</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Passa i colori della palette come uniformi vec3</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>u_fluid_color_1: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-1')) },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>u_fluid_color_2: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-2')) },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>u_fluid_color_3: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-3')) },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>u_fluid_color_accent: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-accent')) },</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>u_color_bg_dark_primary: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--color-bg-dark-primary')) }</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>vertexShader: vertexShader,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fragmentShader: fragmentShader</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>mesh = new THREE.Mesh(geometry, material);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scene.add(mesh);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Gestione del ridimensionamento della finestra</p>
+<p class="p1"><span class="Apple-converted-space">            </span>window.addEventListener('resize', onWindowResize, false);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Gestione del movimento del mouse per l'interattività</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.addEventListener('mousemove', onDocumentMouseMove, false);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.addEventListener('touchmove', onDocumentTouchMove, false);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Funzione per animare la scena Three.js</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function animateThreeJS() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>requestAnimationFrame(animateThreeJS);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Aggiorna il tempo nello shader</p>
+<p class="p1"><span class="Apple-converted-space">            </span>material.uniforms.u_time.value = clock.getElapsedTime();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Smoothen mouse movement for a more fluid effect</p>
+<p class="p1"><span class="Apple-converted-space">            </span>targetMouseX += (mouseX - targetMouseX) * 0.05;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>targetMouseY += (mouseY - targetMouseY) * 0.05;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Aggiorna la posizione del mouse nello shader (normalizzata da 0 a 1)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>material.uniforms.u_mouse.value.x = targetMouseX / window.innerWidth;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>material.uniforms.u_mouse.value.y = 1.0 - (targetMouseY / window.innerHeight); // Inverti Y per coordinate GLSL</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderer.render(scene, camera);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Gestione del ridimensionamento della finestra</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function onWindowResize() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>renderer.setSize(window.innerWidth, window.innerHeight);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>material.uniforms.u_resolution.value.x = window.innerWidth;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>material.uniforms.u_resolution.value.y = window.innerHeight;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Gestione del movimento del mouse</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function onDocumentMouseMove(event) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>mouseX = event.clientX;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>mouseY = event.clientY;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Gestione del movimento touch</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function onDocumentTouchMove(event) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (event.touches.length === 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>event.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mouseX = event.touches[0].pageX;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mouseY = event.touches[0].pageY;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Funzione per inizializzare tutti gli effetti dopo il caricamento iniziale</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function initializeAllEffects() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>initThreeJS();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animateThreeJS();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Gestione dell'animazione di caricamento iniziale</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function startInitialLoadingAnimation() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const loadingDuration = 2800; // Durata totale dell'animazione di caricamento</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>loadingOverlay.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mainContent.classList.add('visible');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>initializeAllEffects(); // Inizializza tutti gli effetti dopo che il contenuto è visibile</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, loadingDuration);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Avvia l'animazione di caricamento quando il DOM è completamente caricato</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.addEventListener('DOMContentLoaded', startInitialLoadingAnimation);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
