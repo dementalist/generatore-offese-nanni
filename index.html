@@ -1,2515 +1,833 @@
 <!DOCTYPE html>
-
 <html lang="it">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Generatore di Offese Buffe</title>
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <title>Nanni Gay 🙊</title> <link rel="icon" href="https://i.ibb.co/8gtYybxt/android-chrome-512x512.png" type="image/png"> <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
     <style>
-
         /* Definizione dei colori personalizzati per il tema scuro hi-tech */
-
         :root {
-
             --color-bg-dark-primary: #0A0A0A; /* Sfondo molto scuro, quasi nero */
-
             --color-bg-dark-secondary: #1C1C1C; /* Leggermente più chiaro per card/elementi */
-
             --color-text-light: #E0E0E0; /* Grigio chiaro per il testo principale */
 
-
-
             /* Colori per l'effetto fluido di sfondo (più tenui e armonici) */
-
             --fluid-color-1: #202030; /* Blu/viola scuro */
-
             --fluid-color-2: #303040; /* Blu/viola medio */
-
             --fluid-color-3: #404050; /* Blu/viola chiaro */
-
             --fluid-color-accent: #606080; /* Accento sottile (blu-grigio) */
 
-
-
             /* Colori per gli elementi UI (più vibranti per contrasto) */
-
             --ui-accent-blue: #00FFFF; /* Ciano/Aqua vibrante */
-
             --ui-accent-purple: #9933FF; /* Viola elettrico */
-
             --ui-accent-green: #00FF99; /* Verde vibrante */
-
             --ui-accent-pink: #F72585; /* Rosa vibrante */
-
         }
-
-
 
         body {
-
             font-family: 'Inter', sans-serif;
-
             color: var(--color-text-light); /* Testo chiaro su sfondo scuro */
-
             overflow-x: hidden; /* Evita lo scroll orizzontale */
-
             cursor: default; /* Cursore tradizionale bianco */
-
-            background-color: var(--color-bg-dark-primary); /* Sfondo di fallback */
-
+            /* Rimosse le precedenti personalizzazioni di sfondo Three.js */
+            background-image: url('https://i.ibb.co/spgCHjDm/video-1080.gif'); /* 4. Sfondo GIF */
+            background-size: cover; /* Assicura che la GIF copra l'intero schermo */
+            background-position: center; /* Centra la GIF */
+            background-repeat: no-repeat; /* Evita la ripetizione della GIF */
+            background-attachment: fixed; /* Rende la GIF fissa durante lo scroll */
         }
 
-
-
-        /* Canvas per lo sfondo Three.js */
-
-        #background-canvas {
-
+        /* Canvas per lo sfondo Three.js rimosso */
+        /* #background-canvas {
             position: fixed;
-
             top: 0;
-
             left: 0;
-
             width: 100vw;
-
             height: 100vh;
-
-            z-index: -1; /* Assicura che sia dietro tutto il contenuto */
-
+            z-index: -1;
             display: block;
-
-            pointer-events: none; /* Non blocca gli eventi del mouse sul contenuto */
-
-        }
-
-
+            pointer-events: none;
+        } */
 
         /* Stili per il contenitore principale */
-
         .main-container {
-
             min-height: 100vh;
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
-
             justify-content: center;
-
             padding: 1rem;
-
             position: relative;
-
-            z-index: 1; /* Assicura che il contenuto sia sopra la canvas */
-
+            z-index: 1; /* Assicura che il contenuto sia sopra la GIF */
         }
-
-
 
         /* Stili per il pannello centrale */
-
         .content-panel {
-
             max-width: 600px; /* Larghezza massima del pannello */
-
             width: 100%;
-
             background-color: var(--color-bg-dark-secondary);
-
             border-radius: 12px; /* rounded-xl */
-
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* Ombra più pronunciata */
-
             padding: 2.5rem;
-
             text-align: center;
-
             border: 1px solid rgba(255, 255, 255, 0.08); /* Bordo sottile */
-
         }
-
-
 
         /* Contenitore per l'immagine del personaggio e l'emoji */
-
         .profile-image-container {
-
             position: relative;
-
-            width: 180px; /* Deve corrispondere alla larghezza dell'immagine */
-
-            height: 180px; /* Deve corrispondere all'altezza dell'immagine */
-
+            width: 90px; /* 3. Riduci di metà la dimensione */
+            height: 90px; /* 3. Riduci di metà la dimensione */
             margin: 0 auto 2rem;
-
         }
-
-
 
         /* Stili per l'immagine del personaggio */
-
         #person-image {
-
             border-radius: 50%;
-
             width: 100%; /* Occupare il 100% del contenitore */
-
             height: 100%; /* Occupare il 100% del contenitore */
-
             object-fit: cover;
-
-            border: 4px solid #ffffff; /* Bordo BIANCO per la foto profilo */
-
+            border: 4px solid var(--ui-accent-purple); /* 3. Bordo viola */
             transition: transform 0.3s ease-in-out;
-
         }
-
         #person-image:hover {
-
             transform: scale(1.03); /* Piccolo ingrandimento all'hover */
-
         }
-
-
 
         /* Stili per l'emoji sovrapposta */
-
         .emoji-overlay {
-
             position: absolute;
-
             bottom: 0;
-
             right: 0;
-
             font-size: 3.5rem; /* Circa 1/10 di 180px è 18px, ma le emoji sono più grandi per essere visibili */
-
             line-height: 1; /* Rimuove spazio extra sopra e sotto l'emoji */
-
             transform: translate(25%, 25%); /* Sposta l'emoji leggermente fuori dall'angolo per visibilità */
-
             z-index: 10; /* Assicura che l'emoji sia sopra l'immagine */
-
         }
-
-
-
-
 
         /* Stili per il titolo (rimossi, ma mantenuti per contesto se ripristinati) */
-
         h1 {
-
             font-size: 2.5rem; /* Dimensione del titolo */
-
             font-weight: 700;
-
             margin-bottom: 2rem;
-
             color: var(--ui-accent-purple); /* Colore viola per il titolo */
-
             text-shadow: 0 0 15px rgba(153, 51, 255, 0.5); /* Bagliore */
-
             display: none; /* Nasconde il titolo */
-
         }
-
-
 
         /* Stili per il bottone principale */
-
         #generate-offense-btn {
-
             background-color: var(--ui-accent-purple); /* Colore accento viola */
-
             color: var(--color-text-light);
-
             font-weight: 600;
-
             padding: 1rem 2.5rem; /* Padding aumentato */
-
             border-radius: 9999px; /* rounded-full */
-
             box-shadow: 0 5px 15px rgba(153, 51, 255, 0.3); /* Ombra con bagliore */
-
             transition: all 0.3s ease-in-out;
-
             border: none;
-
             cursor: pointer;
-
             outline: none;
-
             margin-top: 1.5rem; /* Spostato sotto l'offesa, quindi ha un margine superiore */
-
             margin-bottom: 1.5rem; /* Margine inferiore per separare dal disclaimer */
-
             font-size: 1.25rem; /* Testo più grande */
-
         }
-
         #generate-offense-btn:hover {
-
             background-color: var(--ui-accent-pink); /* Cambia colore all'hover */
-
             transform: translateY(-3px) scale(1.02); /* Piccolo spostamento e ingrandimento */
-
             box-shadow: 0 8px 20px rgba(247, 37, 133, 0.5); /* Bagliore più intenso */
-
         }
-
         #generate-offense-btn:active {
-
             transform: translateY(0) scale(0.98); /* Effetto click */
-
         }
-
-
 
         /* Stili per l'input URL immagine (rimossi dalla visualizzazione) */
-
         .image-input-group {
-
             display: none; /* Nasconde l'intero gruppo di input immagine */
-
         }
-
-
 
         /* Stili per l'area di caricamento (rimossa) */
-
         #loading-area {
-
             display: none; /* Nasconde l'area di caricamento */
-
         }
-
         .loading-spinner {
-
             /* Stili dello spinner non più necessari se l'area è nascosta */
-
             display: none;
-
         }
-
-
 
         /* Stili per l'area dell'offesa */
-
         #offense-display {
-
             margin-bottom: 1.5rem; /* Spostato sopra il bottone, quindi ha un margine inferiore */
-
             padding: 1.5rem;
-
             background-color: var(--color-bg-dark-primary); /* Sfondo più scuro per il testo */
-
             border-radius: 8px;
-
             /* box-shadow: 0 0 15px rgba(247, 37, 133, 0.3); /* Bagliore rimosso */
-
             animation: fade-in 0.5s ease-out forwards; /* Animazione di apparizione */
-
             display: flex; /* Per allineare testo e bottone copia */
-
             flex-direction: column;
-
             align-items: center;
-
             gap: 1rem; /* Spazio tra testo e bottone copia */
-
         }
-
         #offense-text {
-
             font-size: 1.5rem; /* Dimensione testo offesa */
-
             font-weight: 500;
-
             color: #ffffff; /* Colore bianco per il testo dell'offesa */
-
             line-height: 1.5;
-
         }
-
         @keyframes fade-in {
-
             from { opacity: 0; transform: translateY(20px); }
-
             to { opacity: 1; transform: translateY(0); }
-
         }
-
-
 
         /* Stili per il bottone "Copia" */
-
         #copy-offense-btn {
-
             background-color: #ffffff; /* Colore BIANCO per il bottone copia */
-
             color: var(--color-bg-dark-primary); /* Testo scuro per contrasto */
-
             font-weight: 600;
-
             padding: 0.75rem 1.5rem;
-
             border-radius: 9999px;
-
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); /* Ombra più chiara */
-
             transition: all 0.3s ease-in-out;
-
             border: none;
-
             cursor: pointer;
-
             outline: none;
-
             font-size: 0.9rem; /* Testo più piccolo del bottone principale */
-
         }
-
         #copy-offense-btn:hover {
-
             background-color: #e0e0e0; /* Leggermente più scuro all'hover */
-
             transform: translateY(-2px);
-
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Ombra più intensa all'hover */
-
         }
-
-
 
         /* Stili per il disclaimer */
-
         .disclaimer {
-
             font-size: 0.875rem; /* text-sm */
-
             color: rgba(255, 255, 255, 0.4); /* Testo grigio chiaro e trasparente */
-
             margin-top: 3rem;
-
             max-width: 500px;
-
             line-height: 1.4;
-
             text-align: center;
-
             position: relative;
-
             z-index: 1;
-
         }
-
-
 
         /* Cursore tradizionale bianco */
-
         body {
-
             cursor: default;
-
         }
-
-
 
         /* Stili per l'animazione di caricamento delle icone (iniziale) */
-
         #loading-overlay {
-
             position: fixed;
-
             top: 0;
-
             left: 0;
-
             width: 100%;
-
             height: 100%;
-
             background-color: black; /* Sfondo NERO */
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             flex-direction: column;
-
             z-index: 10000;
-
             opacity: 1;
-
             visibility: visible;
-
             transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-
         }
-
         #loading-overlay.hidden {
-
             opacity: 0;
-
             visibility: hidden;
-
         }
-
         /* Contenitore per la singola icona 'X' */
-
         #loading-icon-x-container {
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             width: 80px; /* Dimensione del contenitore per l'icona */
-
             height: 80px;
-
             margin-bottom: 2rem; /* Spazio tra icona e testo */
-
         }
-
         .loading-icon-x {
-
             width: 70px; /* Dimensione dell'icona X */
-
             height: 70px;
-
             fill: #ffffff; /* Colore BIANCO per l'icona */
-
             opacity: 0;
-
             transform: scale(0.5); /* Inizia più piccola */
-
             animation: scale-fade-in 0.8s forwards ease-out, rotate-pulse 2s infinite ease-in-out;
-
         }
-
         @keyframes scale-fade-in {
-
             to { opacity: 1; transform: scale(1); }
-
         }
-
         @keyframes rotate-pulse {
-
             0% { transform: rotate(0deg) scale(1); }
-
             50% { transform: rotate(180deg) scale(1.05); }
-
             100% { transform: rotate(360deg) scale(1); }
-
         }
-
-
 
         #loading-text-initial { /* Nuovo ID per il testo di caricamento iniziale */
-
             font-size: 1.5rem; /* Testo più grande */
-
             color: var(--color-text-light); /* Testo chiaro sul nero */
-
             animation: pulse-text 2s infinite ease-in-out;
-
         }
-
-
 
         /* Nasconde il contenuto principale finché il caricamento non è completo */
-
         #main-content {
-
             opacity: 0;
-
             visibility: hidden;
-
             transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-
         }
-
         #main-content.visible {
-
             opacity: 1;
-
             visibility: visible;
-
         }
-
     </style>
-
 </head>
-
 <body class="antialiased">
-
     <div id="loading-overlay">
-
         <div id="loading-icon-x-container">
-
             <svg class="loading-icon-x" viewBox="0 0 24 24" fill="currentColor">
-
                 <rect x="10" y="0" width="4" height="24" transform="rotate(45 12 12)"/>
-
                 <rect x="10" y="0" width="4" height="24" transform="rotate(-45 12 12)"/>
-
             </svg>
-
         </div>
-
         <p id="loading-text-initial">Pippo AI jokes</p>
-
     </div>
-
-
-
-    <canvas id="background-canvas"></canvas>
-
-
 
     <div id="main-content" class="main-container">
-
         <div class="content-panel">
-
             <div class="profile-image-container">
-
                 <img id="person-image" src="https://static-cdn.jtvnw.net/jtv_user_pictures/90693e3a-8eff-4d6a-b7aa-51e5a79aa58b-profile_image-70x70.png" alt="Persona">
-
                 <span class="emoji-overlay" role="img" aria-label="Crazy face emoji">🤪</span>
-
             </div>
-
-
 
             <div id="offense-display" class="hidden">
-
                 <p id="offense-text"></p>
-
                 <button id="copy-offense-btn" class="hidden">Copia</button>
-
             </div>
 
-
-
             <button id="generate-offense-btn">
-
                 Offendi Il Tuo Nanni Preferito
-
             </button>
 
-
-
             <p class="disclaimer">
-
                 Disclaimer: Questo generatore è puramente a scopo umoristico e di intrattenimento. Le offese generate sono fittizie e non intendono offendere o denigrare nessuno nella realtà. Si prega di non prendere sul serio il contenuto.
-
             </p>
-
         </div>
-
     </div>
 
-
-
     <script>
-
         // DOM Elements
-
         const loadingOverlay = document.getElementById('loading-overlay');
-
         const mainContent = document.getElementById('main-content');
-
         const generateOffenseBtn = document.getElementById('generate-offense-btn');
-
         const offenseDisplay = document.getElementById('offense-display');
-
         const offenseText = document.getElementById('offense-text');
-
         const copyOffenseBtn = document.getElementById('copy-offense-btn');
-
         const personImage = document.getElementById('person-image');
 
-
-
-        // Three.js Variables
-
-        let scene, camera, renderer, material, mesh;
-
-        let mouseX = 0, mouseY = 0;
-
-        let targetMouseX = 0, targetMouseY = 0;
-
-        const clock = new THREE.Clock();
-
-
+        // Three.js Variables rimosse
+        // let scene, camera, renderer, material, mesh;
+        // let mouseX = 0, mouseY = 0;
+        // let targetMouseX = 0, targetMouseY = 0;
+        // const clock = new THREE.Clock();
 
         // List of insults (over 100 phrases)
-
         const insults = [
-
             // Obesity / Walrus / Pit
-
             "Sei così grande che quando ti giri, il fuso orario cambia.",
-
             "Non sei grasso, hai solo un'alta densità di simpatia... e di pizza.",
-
             "Il tuo BMI è più un B-M-WHY?!",
-
             "Quando sali sulla bilancia, ti dice 'prego, uno alla volta'.",
-
             "Sei come un tricheco, ma con meno grazia in acqua e più patatine.",
-
             "Più che un pozzo, sei una voragine senza fondo per il cibo.",
-
             "La tua ombra ha la sua ombra, e anche quella è in sovrappeso.",
-
             "Hai più pieghe tu che una fisarmonica dopo un concerto di rock.",
-
             "Sei il motivo per cui i buffet hanno il cartello 'limite di peso'.",
-
             "Il tuo stomaco ha un codice postale e una sua gravità.",
-
             "Potresti bloccare un'autostrada con la tua sola presenza, e anche un marciapiede.",
-
             "La tua circonferenza è un'unità di misura non standard, ma molto usata dai sarti.",
-
             "Hai il metabolismo di un bradipo in letargo perenne.",
-
             "Quando corri, senti il rumore delle tue cosce che applaudono, e anche un po' di fiatone.",
-
             "La tua dieta è composta principalmente da 'aria fritta' e rimpianti.",
-
             "Non sei un tricheco, sei un'intera colonia di trichechi in uno solo.",
-
             "Ti muovi così lentamente che l'erba cresce più in fretta di te.",
-
             "Il tuo girovita è una leggenda metropolitana, nessuno l'ha mai visto per intero.",
-
             "Ti serve un carrello elevatore per fare la spesa al supermercato.",
-
             "Sei così pesante che il tuo albero genealogico è crollato sotto il tuo peso.",
-
             "Il tuo stomaco è un buco nero che attrae ogni tipo di cibo.",
-
             "Quando ti siedi, la sedia chiede pietà.",
-
             "Hai più strati tu che una cipolla, ma meno lacrime.",
-
             "La tua taglia è 'formato famiglia' per una famiglia numerosa.",
-
             "Sei l'unico che può fare ombra a un palazzo.",
-
-
 
             // Interista
-
             "Sei interista? Ah, ecco perché sei abituato a vedere le cose dall'alto... del divano.",
-
             "Il tuo amore per l'Inter è l'unica cosa che non crolla mai, a differenza della loro difesa.",
-
             "Se sei interista, la tua vita è una continua attesa del prossimo Scudetto... o del prossimo crollo.",
-
             "L'unica cosa più prevedibile di te è la sconfitta dell'Inter nei momenti cruciali.",
-
             "Sei nato interista o sei caduto in una botte di sfortuna cosmica?",
-
             "La tua fede interista è come la loro difesa: inesistente e piena di buchi.",
-
             "Sei interista, spiega la differenza tra un gol e un'illusione ottica.",
-
             "Quando l'Inter vince, è un miracolo. Quando perde, è martedì... o domenica, o mercoledì.",
-
             "Sei interista, quindi sai bene cosa significa 'mai una gioia' nella vita.",
-
             "La tua squadra è come il tuo cervello: a intermittenza e con qualche corto circuito.",
-
             "La tua sofferenza da interista è più autentica del loro palmarès recente.",
-
             "Sei così interista che il tuo colore preferito is the gray of football mediocrity.",
-
             "L'unica cosa che l'Inter ti ha insegnato è la resilienza... alla delusione costante.",
-
             "La tua passione per l'Inter è un'offesa al buon gusto calcistico.",
-
             "Sei un interista? Scommetto che la tua unica vittoria è stata a Fantacalcio, e pure lì hai barato.",
-
-
 
             // Cigarettes / Smoking
-
             "Il tuo alito è così fresco che potresti estinguere un incendio boschivo.",
-
             "Fumi così tanto che i tuoi polmoni hanno la bandiera bianca e chiedono reinforzi.",
-
             "Quando tossisci, sembra che un drago stia facendo il riscaldamento per un attacco nucleare.",
-
             "Hai più catrame nei polmoni che l'asfalto della A1 dopo un temporale.",
-
             "Sei l'unica persona che ha bisogno di un posacenere portatile per il naso, e uno per l'anima.",
-
             "La tua voce è così roca che sembri un gargoyle con la bronchite cronica.",
-
             "Fumi così tanto che potresti essere un fumogeno umano per le partite di calcio.",
-
             "La tua vita è un pacchetto di sigarette: corta e piena di cenere, e pure un po' stropicciata.",
-
             "Sei un fumatore incallito? Scommetto che il tuo medico ti saluta con 'ciao, canna fumaria umana!'.",
-
             "Il tuo profumo preferito è 'cenere e rimpianto', con note di catrame.",
-
             "Le tue dita sono più gialle di un evidenziatore scaduto da un decennio.",
-
             "Hai più buchi nei vestiti tu che un formaggio svizzero dopo un attacco di topi.",
-
             "La tua dipendenza è così forte che fumeresti anche l'aria... se fosse commestibile.",
-
             "Il tuo respiro è una minaccia per l'ozono e per chiunque ti stia vicino.",
-
             "Sei un pericolo pubblico per chiunque ti stia vicino, specialmente in un ambiente chiuso.",
-
-
 
             // Streamer
-
             "Passi più tempo a parlare con una webcam che con persone vere, e la webcam non ti risponde.",
-
             "La tua carriera da streamer è come la tua connessione: piena di lag e disconnessioni improvvise.",
-
             "Sei così famoso che hai 10 spettatori... e 8 sono tuoi parenti costretti a guardarti.",
-
             "Il tuo gameplay è così emozionante che fa addormentare anche i bot di Twitch.",
-
             "Hai più follower tu che un profilo fake su Instagram, e sono tutti account inattivi.",
-
             "La tua interazione con il pubblico è come la tua vita sociale: un silenzio imbarazzante rotto solo da suoni di tastiera.",
-
             "Sei uno streamer? Scommetto che il tuo 'lavoro' consiste nel guardare il tuo riflesso sullo schermo tutto il giorno.",
-
             "Il tuo microfono è più pulito della tua reputazione online.",
-
             "Sei così bravo a streamare che il tuo pubblico è composto solo da te stesso in un'altra finestra del browser.",
-
             "La tua chat è più morta di un server di Fortnite nel 2050 dopo l'apocalisse.",
-
             "Il tuo setup da gaming costa più del tuo affitto, ma il tuo reddito è zero.",
-
             "L'unica cosa che streammi bene è la tua solitudine e la tua disperazione.",
-
             "Hai più schermi tu che un centro di controllo aeroportuale, ma non sai dove guardare.",
-
             "La tua voce da streamer è più fastidiosa di un allarme antincendio alle 3 del mattino.",
-
             "Sei uno streamer? La tua vita è un tutorial su come non avere una vita sociale.",
-
-
 
             // Was a chef for 8 years
-
             "Otto anni in cucina e l'unica cosa che hai imparato è bruciare l'acqua... e i sogni.",
-
             "Hai cucinato per 8 anni? E la gente è ancora viva? Miracolo della medicina moderna!",
-
             "La tua cucina è un campo di battaglia, e il cibo è la vittima sacrificale.",
-
             "Sei un cuoco da 8 anni? Scommetto che il tuo piatto forte è il toast bruciato accompagnato da lacrime.",
-
             "Hai più ustioni tu che un drago sputafuoco dopo una giornata intensa.",
-
             "La tua 'arte culinaria' fa rimpiangere la mensa scolastica, e non è un complimento.",
-
             "Otto anni di esperienza e ancora non sai distinguere il sale dallo zucchero, o la carne dal cartone.",
-
             "Il tuo cibo è così innovativo che nessuno sa cosa sia, né osa assaggiarlo.",
-
             "Sei un cuoco? L'unica cosa che fai bene è l'ordinazione a domicilio per gli altri.",
-
             "La tua specialità è far sparire il cibo... nel cestino, dopo un assaggio.",
-
             "Hai più storie di fallimenti in cucina che ricette riuscite, e sono tutte epiche.",
-
             "Laia cucina è un laboratorio di esperimenti falliti, con odori sospetti.",
-
             "Otto anni di esperienza e il tuo cibo ha ancora il sapore di 'boh, forse è commestibile'.",
-
             "Sei un cuoco? L'unica cosa che è 'gourmet' è il tuo ego smisurato.",
-
             "La tua passione per la cucina è inversamente proporzionale al gusto del tuo cibo, purtroppo.",
-
-
 
             // Lived in Australia
-
             "Sei stato in Australia? Ecco perché parli così strano, tra un morso di ragno e l'altro.",
-
             "Hai vissuto in Australia? Scommetto che il tuo animale domestico era un canguro con un problema di rabbia.",
-
             "L'Australia ti ha reso più resistente... alle zanzare giganti e ai coccodilli.",
-
             "Sei così australiano che la tua idea di 'freddo' è 25 gradi e un cappotto leggero.",
-
             "Hai più cicatrici da animali velenosi tu che un libro di storia naturale illustrato.",
-
             "L'unica cosa che hai imparato in Australia è a correre veloce dagli animali che vogliono ucciderti.",
-
             "Hai vissuto in Australia? Quindi la tua colazione è Vegemite e rimpianto perenne.",
-
             "Sei tornato dall'Australia? Hai lasciato il tuo cervello lì, vero? Non si è più visto.",
-
             "L'Australia ti ha dato una prospettiva unica... su quante cose possono ucciderti in un solo giorno.",
-
             "Il tuo accento australiano è più finto di un koala che fa la dieta vegana.",
-
             "Hai più storie di incontri ravvicinati con la fauna selvatica che con persone normali.",
-
             "L'Australia ti ha insegnato a sopravvivere... ma non a socializzare con gli esseri umani.",
-
             "La tua nostalgia per l'Australia è più grande della tua intelligenza, il che è preoccupante.",
-
             "Sei stato in Australia? L'unica cosa che ti è rimasta è la paura irrazionale dei ragni.",
-
             "Il tuo senso dell'orientamento è così pessimo che ti sei perso anche in Australia, nel deserto.",
 
-
-
             // Playing with Pokémon
-
             "Sei troppo vecchio per giocare a Pokémon, ma troppo giovane per avere una vita sociale.",
-
             "I tuoi Pokémon sono più evoluti della tua personalità, che è rimasta a livello base.",
-
             "Hai più carte Pokémon tu che una banca, e valgono meno.",
-
             "L'unica cosa che catturi sono i Pokémon, non l'attenzione delle persone reali.",
-
             "Sei un allenatore Pokémon? L'unica cosa che alleni è la tua pigrizia sul divano.",
-
             "I tuoi Pokémon sono più forti delle tue argomentazioni in qualsiasi discussione.",
-
             "Hai così tanti Pokémon che potresti aprire uno zoo... di peluche impolverati.",
-
             "La tua passione per i Pokémon è l'unica cosa che non è cresciuta con te, è rimasta infantile.",
-
             "Sei un maestro Pokémon? L'unica cosa che domini è il divano e il telecomando.",
-
             "I tuoi Pokémon sono più reali dei tuoi amici, il che dice molto sulla tua vita.",
-
             "La tua conoscenza dei Pokémon è enciclopedica, la tua conoscenza del mondo reale è pari a zero.",
-
             "Passi più tempo a cercare Pokémon rari che a cercare un lavoro.",
-
             "Sei così ossessionato dai Pokémon che parli con loro invece che con le persone.",
-
             "La tua vita è un gioco Pokémon: piena di creature strane e poche interazioni significative.",
-
             "Hai più badge tu che un boy scout, ma non hai mai messo piede fuori casa.",
-
-
 
             // Opening soccer player stickers
-
             "Hai più figurine doppie tu che neuroni funzionanti, e sono tutte di portieri di riserva.",
-
             "Apri figurine? L'unica cosa che trovi è la delusione e la mancanza del tuo idolo.",
-
             "La tua collezione di figurine è più grande del tuo futuro, e forse anche del tuo appartamento.",
-
             "Hai più attaccanti tu che un allenatore di Serie Z, e sono tutti infortunati.",
-
             "Sei così appassionato di figurine che il tuo portafoglio piange lacrime amare.",
-
             "L'unica cosa che ti manca è il senso della realtà, e magari un attaccante forte.",
-
             "Hai più album tu che una libreria, e sono tutti incompleti.",
-
             "La tua vita è un'eterna ricerca della figurina mancante, come il senso della tua esistenza.",
-
             "Sei un collezionista di figurine? L'unica cosa che collezioni sono i fallimenti e le doppie.",
-
             "Laia passione per le figurine è l'unica cosa che ti rende interessante... per i bambini dell'asilo.",
-
             "Hai più pacchetti di figurine aperti che conversazioni significative.",
-
             "La tua abilità nel trovare figurine rare è pari alla tua abilità nel trovare un partner.",
-
             "Sei così bravo ad aprire figurine che potresti fare il chirurgo... ma solo per le bustine.",
-
             "La tua felicità dipende da un pezzo di carta con un calciatore sopra, che tristezza.",
-
             "L'unica cosa che ti emoziona è trovare la figurina di un difensore sconosciuto.",
-
-
-
-            // Nuove offese ispirate a NanniTwitch e cultura streaming/gaming
-
-            "Il tuo ping è più alto del tuo QI.",
-
-            "Sei così lento che il tuo stream va a 144p anche in 5G.",
-
-            "Hai più bot in chat che amici nella vita reale.",
-
-            "La tua webcam ha una risoluzione migliore della tua vita.",
-
-            "Il tuo microfono è così scadente che sembri un robot sott'acqua.",
-
-            "Hai più lag tu che un server di Minecraft su un tostapane.",
-
-            "La tua connessione è così instabile che ti disconnetti anche dal sonno.",
-
-            "Sei l'unico streamer che ha 0 spettatori e si lamenta dei viewer-bot.",
-
-            "Il tuo gameplay è così noioso che anche i tuoi follower si addormentano in live.",
-
-            "Hai una tastiera meccanica ma digiti come se avessi i guanti da forno.",
-
-            "Sei così scarso che anche i tutorial ti danno del filo da torcere.",
-
-            "La tua skill cap è più bassa del tuo conto in banca.",
-
-            "Hai più emote tu che espressioni facciali.",
-
-            "Il tuo sub-goal è così ambizioso che nemmeno Babbo Natale ci crede.",
-
-            "Sei il re dei 'just chatting' perché non sai giocare a niente.",
-
-            "Laia sedia da gaming costa più del tuo PC, e si vede.",
-
-            "Hai più cavi tu che una centrale elettrica, ma non sai come collegarli.",
-
-            "Il tuo stream è così pixelato che sembri un quadro di arte moderna, ma brutto.",
-
-            "Sei l'unico che riesce a farsi bannare anche da un gioco offline.",
-
-            "La tua chat è più tossica di Chernobyl, e pure più vuota.",
-
-            "Hai più overlay tu che strati di cipolla, e confondono tutti.",
-
-            "Il tuo facecam è così buio che sembri un'ombra in agguato.",
-
-            "Sei un pro-player... di Tetris, e pure lì perdi.",
-
-            "La tua reazione alle donazioni è più finta di un sorriso in un lunedì mattina.",
-
-            "Hai più cuffie tu che capelli, e le usi tutte male.",
-
-            "Sei così nerd che la tua vita sociale è un DLC a pagamento.",
-
-            "La tua voce è così acuta che spacca i vetri, e pure i timpani.",
-
-            "Hai più schermi tu che un cinema multisala, ma guardi solo il tuo riflesso.",
-
-            "Il tuo PC è così vecchio che ci gira solo il Solitario, e pure a scatti.",
-
-            "Sei un campione di League of Legends, ma solo contro i bot principianti.",
-
-            "La tua mira è così pessima che non colpisci nemmeno un elefante in un corridoio.",
-
-            "Hai più skin tu che buon senso, e sono tutte brutte.",
-
-            "Il tuo elo è così basso che sei in classifica con i sassi.",
-
-            "Sei così bravo a perdere che dovresti fare un tutorial.",
-
-            "La tua strategia di gioco è 'speriamo che vada bene', e non va mai bene.",
-
-            "Hai più rage-quit tu che partite giocate fino alla fine.",
-
-            "Il tuo microfono è così sensibile che registra anche i tuoi pensieri imbarazzanti.",
-
-            "Sei un maestro del clickbait, ma il tuo contenuto è vuoto.",
-
-            "La tua community è così piccola che potresti fare una videochiamata di gruppo.",
-
-            "Hai più energy drink tu che sangue nelle vene.",
-
-            "La tua stanza sembra un negozio di elettronica usato, e pure disordinato.",
-
-            "Sei così pigro che anche il tuo avatar in gioco si stanca di muoversi.",
-
-            "Hai più debiti tu che vittorie in carriera.",
-
-            "Il tuo umorismo è così di nicchia che solo tu lo capisci.",
-
-            "Sei un influencer, ma solo per la tua famiglia allargata.",
-
-            "La tua vita è un meme, ma di quelli che non fanno ridere nessuno.",
-
-            "Hai più notifiche tu che follower attivi.",
-
-            "Il tuo setup è RGB, ma la tua personalità è in bianco e nero.",
-
-            "Sei così scarso che anche i tuoi avversari si annoiano a batterti.",
-
-            "La tua autostima è più fragile di una connessione Wi-Fi pubblica.",
-
-            "Hai più bug tu che un gioco in alpha.",
-
-            "Il tuo stream è così interattivo che la chat si parla da sola.",
-
-            "Sei un collezionista di figuracce, non di figurine.",
-
-            "La tua pazienza è più sottile di un capello di Nanni.",
-
-            "Hai più scuse tu che un politico in campagna elettorale.",
-
-            "Il tuo stile è così unico che nessuno vuole copiarlo.",
-
-            "Sei un'icona... del fallimento.",
-
-            "La tua energia è pari a quella di una batteria scarica al 1%.",
-
-            "Hai più notifiche di Twitch che messaggi veri sul telefono.",
-
-            "Il tuo gameplay è così prevedibile che potrei scriverci un libro, ma nessuno lo leggerebbe.",
-
-            "Sei il motivo per cui Twitch ha inventato il tasto 'segnala'.",
-
-            "La tua faccia in webcam è più espressiva di un muro di cemento.",
-
-            "Hai più ritardi tu che un treno regionale in Italia.",
-
-            "Il tuo talento è così nascosto che nemmeno Google lo trova.",
-
-            "Sei un campione di 'nascondino' con il successo.",
-
-            "La tua voce è l'unica cosa che non ha bisogno di un filtro.",
-
-            "Hai più crisi esistenziali tu che ore di sonno.",
-
-            "Il tuo pubblico è così fedele che ti segue anche quando ti lavi i denti.",
-
-            "Sei un'ispirazione... per chi vuole fallire con stile.",
-
-            "La tua autoironia è l'unica cosa che funziona bene.",
-
-            "Hai più follower falsi tu che veri.",
-
-            "Il tuo sorriso è più raro di un drop leggendario.",
-
-            "Sei così pigro che il tuo pensiero più complesso è 'cosa mangio stasera?'.",
-
-            "La tua vita è un tutorial su come non avere una vita.",
-
-            "Hai più meme tu che argomenti di conversazione.",
-
-            "Il tuo PC è un dinosauro, e tu sei l'archeologo che lo usa.",
-
-            "Sei un maestro del 'rage-quit' silenzioso.",
-
-            "Laia fortuna è come il tuo Wi-Fi: debole e intermittente.",
-
-            "Hai più notifiche di spam tu che complimenti.",
-
-            "Il tuo stream è più vuoto di un concerto di musica classica per adolescenti.",
-
-            "Sei un esperto di giochi che nessuno conosce.",
-
-            "La tua carriera è un glitch, e pure brutto.",
-
-            "Hai più ore su Twitch che anni di vita.",
-
-            "Il tuo sonno è un mito, come la tua produttività.",
-
-            "Sei così bravo a parlare da solo che potresti fare il comico muto.",
-
-            "La tua creatività è come la tua connessione: a singhiozzo.",
-
-            "Hai più errori tu che un codice scritto da un bambino.",
-
-            "Il tuo carisma è pari a quello di un comodino.",
-
-            "Sei un'enciclopedia di cose inutili.",
-
-            "La tua vita è un beta test, e non sta andando bene.",
-
-            "Hai più snack tu che vitamine.",
-
-            "Il tuo futuro è più incerto di un lancio di dadi.",
-
-            "Sei così ottimista che credi ancora nei tuoi sub-goal.",
-
-            "La tua playlist è così vecchia che ci ballavano i dinosauri.",
-
-            "Hai più problemi tu che un libro di matematica.",
-
-            "Il tuo talento è un segreto ben custodito... da te stesso.",
-
-            "Sei un artista della procrastinazione.",
-
-            "La tua ambizione è più grande del tuo letto.",
-
-            "Hai più scuse tu che un avvocato senza scrupoli.",
-
-            "Il tuo stile è così unico che fa paura.",
-
-            "Sei un'opera d'arte incompresa, e pure brutta.",
-
-            "La tua motivazione è come il tuo Wi-Fi: un giorno c'è, un giorno no.",
-
-            "Hai più notifiche di aggiornamento che di messaggi.",
-
-            "Il tuo stream è un esperimento sociale sul silenzio.",
-
-            "Sei un guru del 'non fare niente'.",
-
-            "La tua vita è un bug, e non è stato ancora patchato.",
-
-            "Hai più caffeina tu che sangue.",
-
-            "Il tuo girovita è una leggenda metropolitana, nessuno l'ha mai visto per intero.",
-
-            "La tua taglia è 'formato famiglia' per una famiglia numerosa.",
-
-            "Sei l'unico che può fare ombra a un palazzo.",
-
-            "Sei interista? Ah, ecco perché sei abituato a vedere le cose dall'alto... del divano.",
-
-            "Il tuo amore per l'Inter è l'unica cosa che non crolla mai, a differenza della loro difesa.",
-
-            "Se sei interista, la tua vita è una continua attesa del prossimo Scudetto... o del prossimo crollo.",
-
-            "L'unica cosa più prevedibile di te è la sconfitta dell'Inter nei momenti cruciali.",
-
-            "Sei nato interista o sei caduto in una botte di sfortuna cosmica?",
-
-            "La tua fede interista è come la loro difesa: inesistente e piena di buchi.",
-
-            "Sei interista, spiega la differenza tra un gol e un'illusione ottica.",
-
-            "Quando l'Inter vince, è un miracolo. Quando perde, è martedì... o domenica, o mercoledì.",
-
-            "Sei interista, quindi sai bene cosa significa 'mai una gioia' nella vita.",
-
-            "La tua squadra è come il tuo cervello: a intermittenza e con qualche corto circuito.",
-
-            "Laia sofferenza da interista è più autentica del loro palmarès recente.",
-
-            "Sei così interista che il tuo colore preferito is the gray of football mediocrity.",
-
-            "L'unica cosa che l'Inter ti ha insegnato è la resilienza... alla delusione costante.",
-
-            "La tua passione per l'Inter è un'offesa al buon gusto calcistico.",
-
-            "Sei un interista? Scommetto che la tua unica vittoria è stata a Fantacalcio, e pure lì hai barato.",
-
-            "Il tuo alito è così fresco che potresti estinguere un incendio boschivo.",
-
-            "Fumi così tanto che i tuoi polmoni hanno la bandiera bianca e chiedono reinforzi.",
-
-            "Quando tossisci, sembra che un drago stia facendo il riscaldamento per un attacco nucleare.",
-
-            "Hai più catrame nei polmoni che l'asfalto della A1 dopo un temporale.",
-
-            "Sei l'unica persona che ha bisogno di un posacenere portatile per il naso, e uno per l'anima.",
-
-            "La tua voce è così roca che sembri un gargoyle con la bronchite cronica.",
-
-            "Fumi così tanto che potresti essere un fumogeno umano per le partite di calcio.",
-
-            "La tua vita è un pacchetto di sigarette: corta e piena di cenere, e pure un po' stropicciata.",
-
-            "Sei un fumatore incallito? Scommetto che il tuo medico ti saluta con 'ciao, canna fumaria umana!'.",
-
-            "Il tuo profumo preferito è 'cenere e rimpianto', con note di catrame.",
-
-            "Le tue dita sono più gialle di un evidenziatore scaduto da un decennio.",
-
-            "Hai più buchi nei vestiti tu che un formaggio svizzero dopo un attacco di topi.",
-
-            "La tua dipendenza è così forte che fumeresti anche l'aria... se fosse commestibile.",
-
-            "Il tuo respiro è una minaccia per l'ozono e per chiunque ti stia vicino.",
-
-            "Sei un pericolo pubblico per chiunque ti stia vicino, specialmente in un ambiente chiuso.",
-
-            "Passi più tempo a parlare con una webcam che con persone vere, e la webcam non ti risponde.",
-
-            "La tua carriera da streamer è come la tua connessione: piena di lag e disconnessioni improvvise.",
-
-            "Sei così famoso che hai 10 spettatori... e 8 sono tuoi parenti costretti a guardarti.",
-
-            "Il tuo gameplay è così emozionante che fa addormentare anche i bot di Twitch.",
-
-            "Hai più follower tu che un profilo fake su Instagram, e sono tutti account inattivi.",
-
-            "La tua interazione con il pubblico è come la tua vita sociale: un silenzio imbarazzante rotto solo da suoni di tastiera.",
-
-            "Sei uno streamer? Scommetto che il tuo 'lavoro' consiste nel guardare il tuo riflesso sullo schermo tutto il giorno.",
-
-            "Il tuo microfono è più pulito della tua reputazione online.",
-
-            "Sei così bravo a streamare che il tuo pubblico è composto solo da te stesso in un'altra finestra del browser.",
-
-            "La tua chat è più morta di un server di Fortnite nel 2050 dopo l'apocalisse.",
-
-            "Il tuo setup da gaming costa più del tuo affitto, ma il tuo reddito è zero.",
-
-            "L'unica cosa che streammi bene è la tua solitudine e la tua disperazione.",
-
-            "Hai più schermi tu che un centro di controllo aeroportuale, ma non sai dove guardare.",
-
-            "La tua voce da streamer è più fastidiosa di un allarme antincendio alle 3 del mattino.",
-
-            "Sei uno streamer? La tua vita è un tutorial su come non avere una vita sociale.",
-
-            "Otto anni in cucina e l'unica cosa che hai imparato è bruciare l'acqua... e i sogni.",
-
-            "Hai cucinato per 8 anni? E la gente è ancora viva? Miracolo della medicina moderna!",
-
-            "La tua cucina è un campo di battaglia, e il cibo è la vittima sacrificale.",
-
-            "Sei un cuoco da 8 anni? Scommetto che il tuo piatto forte è il toast bruciato accompagnato da lacrime.",
-
-            "Hai più ustioni tu che un drago sputafuoco dopo una giornata intensa.",
-
-            "La tua 'arte culinaria' fa rimpiangere la mensa scolastica, e non è un complimento.",
-
-            "Otto anni di esperienza e ancora non sai distinguere il sale dallo zucchero, o la carne dal cartone.",
-
-            "Il tuo cibo è così innovativo che nessuno sa cosa sia, né osa assaggiarlo.",
-
-            "Sei un cuoco? L'unica cosa che fai bene è l'ordinazione a domicilio per gli altri.",
-
-            "La tua specialità è far sparire il cibo... nel cestino, dopo un assaggio.",
-
-            "Hai più storie di fallimenti in cucina che ricette riuscite, e sono tutte epiche.",
-
-            "Laia cucina è un laboratorio di esperimenti falliti, con odori sospetti.",
-
-            "Otto anni di esperienza e il tuo cibo ha ancora il sapore di 'boh, forse è commestibile'.",
-
-            "Sei un cuoco? L'unica cosa che è 'gourmet' è il tuo ego smisurato.",
-
-            "La tua passione per la cucina è inversamente proporzionale al gusto del tuo cibo, purtroppo.",
-
-            "Sei stato in Australia? Ecco perché parli così strano, tra un morso di ragno e l'altro.",
-
-            "Hai vissuto in Australia? Scommetto che il tuo animale domestico era un canguro con un problema di rabbia.",
-
-            "L'Australia ti ha reso più resistente... alle zanzare giganti e ai coccodilli.",
-
-            "Sei così australiano che la tua idea di 'freddo' è 25 gradi e un cappotto leggero.",
-
-            "Hai più cicatrici da animali velenosi tu che un libro di storia naturale illustrato.",
-
-            "L'unica cosa che hai imparato in Australia è a correre veloce dagli animali che vogliono ucciderti.",
-
-            "Hai vissuto in Australia? Quindi la tua colazione è Vegemite e rimpianto perenne.",
-
-            "Sei tornato dall'Australia? Hai lasciato il tuo cervello lì, vero? Non si è più visto.",
-
-            "L'Australia ti ha dato una prospettiva unica... su quante cose possono ucciderti in un solo giorno.",
-
-            "Il tuo accento australiano è più finto di un koala che fa la dieta vegana.",
-
-            "Hai più storie di incontri ravvicinati con la fauna selvatica che con persone normali.",
-
-            "L'Australia ti ha insegnato a sopravvivere... ma non a socializzare con gli esseri umani.",
-
-            "La tua nostalgia per l'Australia è più grande della tua intelligenza, il che è preoccupante.",
-
-            "Sei stato in Australia? L'unica cosa che ti è rimasta è la paura irrazionale dei ragni.",
-
-            "Il tuo senso dell'orientamento è così pessimo che ti sei perso anche in Australia, nel deserto.",
-
-
-
-            // Playing with Pokémon
-
-            "Sei troppo vecchio per giocare a Pokémon, ma troppo giovane per avere una vita sociale.",
-
-            "I tuoi Pokémon sono più evoluti della tua personalità, che è rimasta a livello base.",
-
-            "Hai più carte Pokémon tu che una banca, e valgono meno.",
-
-            "L'unica cosa che catturi sono i Pokémon, non l'attenzione delle persone reali.",
-
-            "Sei un allenatore Pokémon? L'unica cosa che alleni è la tua pigrizia sul divano.",
-
-            "I tuoi Pokémon sono più forti delle tue argomentazioni in qualsiasi discussione.",
-
-            "Hai così tanti Pokémon che potresti aprire uno zoo... di peluche impolverati.",
-
-            "La tua passione per i Pokémon è l'unica cosa che non è cresciuta con te, è rimasta infantile.",
-
-            "Sei un maestro Pokémon? L'unica cosa che domini è il divano e il telecomando.",
-
-            "I tuoi Pokémon sono più reali dei tuoi amici, il che dice molto sulla tua vita.",
-
-            "La tua conoscenza dei Pokémon è enciclopedica, la tua conoscenza del mondo reale è pari a zero.",
-
-            "Passi più tempo a cercare Pokémon rari che a cercare un lavoro.",
-
-            "Sei così ossessionato dai Pokémon che parli con loro invece che con le persone.",
-
-            "La tua vita è un gioco Pokémon: piena di creature strane e poche interazioni significative.",
-
-            "Hai più badge tu che un boy scout, ma non hai mai messo piede fuori casa.",
-
-
-
-            // Opening soccer player stickers
-
-            "Hai più figurine doppie tu che neuroni funzionanti, e sono tutte di portieri di riserva.",
-
-            "Apri figurine? L'unica cosa che trovi è la delusione e la mancanza del tuo idolo.",
-
-            "La tua collezione di figurine è più grande del tuo futuro, e forse anche del tuo appartamento.",
-
-            "Hai più attaccanti tu che un allenatore di Serie Z, e sono tutti infortunati.",
-
-            "Sei così appassionato di figurine che il tuo portafoglio piange lacrime amare.",
-
-            "L'unica cosa che ti manca è il senso della realtà, e magari un attaccante forte.",
-
-            "Hai più album tu che una libreria, e sono tutti incompleti.",
-
-            "La tua vita è un'eterna ricerca della figurina mancante, come il senso della tua esistenza.",
-
-            "Sei un collezionista di figurine? L'unica cosa che collezioni sono i fallimenti e le doppie.",
-
-            "Laia passione per le figurine è l'unica cosa che ti rende interessante... per i bambini dell'asilo.",
-
-            "Hai più pacchetti di figurine aperti che conversazioni significative.",
-
-            "La tua abilità nel trovare figurine rare è pari alla tua abilità nel trovare un partner.",
-
-            "Sei così bravo ad aprire figurine che potresti fare il chirurgo... ma solo per le bustine.",
-
-            "La tua felicità dipende da un pezzo di carta con un calciatore sopra, che tristezza.",
-
-            "L'unica cosa che ti emoziona è trovare la figurina di un difensore sconosciuto.",
-
-
-
-            // Nuove offese ispirate a NanniTwitch e cultura streaming/gaming
-
-            "Il tuo ping è più alto del tuo QI.",
-
-            "Sei così lento che il tuo stream va a 144p anche in 5G.",
-
-            "Hai più bot in chat che amici nella vita reale.",
-
-            "La tua webcam ha una risoluzione migliore della tua vita.",
-
-            "Il tuo microfono è così scadente che sembri un robot sott'acqua.",
-
-            "Hai più lag tu che un server di Minecraft su un tostapane.",
-
-            "La tua connessione è così instabile che ti disconnetti anche dal sonno.",
-
-            "Sei l'unico streamer che ha 0 spettatori e si lamenta dei viewer-bot.",
-
-            "Il tuo gameplay è così noioso che anche i tuoi follower si addormentano in live.",
-
-            "Hai una tastiera meccanica ma digiti come se avessi i guanti da forno.",
-
-            "Sei così scarso che anche i tutorial ti danno del filo da torcere.",
-
-            "La tua skill cap è più bassa del tuo conto in banca.",
-
-            "Hai più emote tu che espressioni facciali.",
-
-            "Il tuo sub-goal è così ambizioso che nemmeno Babbo Natale ci crede.",
-
-            "Sei il re dei 'just chatting' perché non sai giocare a niente.",
-
-            "Laia sedia da gaming costa più del tuo PC, e si vede.",
-
-            "Hai più cavi tu che una centrale elettrica, ma non sai come collegarli.",
-
-            "Il tuo stream è così pixelato che sembri un quadro di arte moderna, ma brutto.",
-
-            "Sei l'unico che riesce a farsi bannare anche da un gioco offline.",
-
-            "La tua chat è più tossica di Chernobyl, e pure più vuota.",
-
-            "Hai più overlay tu che strati di cipolla, e confondono tutti.",
-
-            "Il tuo facecam è così buio che sembri un'ombra in agguato.",
-
-            "Sei un pro-player... di Tetris, e pure lì perdi.",
-
-            "La tua reazione alle donazioni è più finta di un sorriso in un lunedì mattina.",
-
-            "Hai più cuffie tu che capelli, e le usi tutte male.",
-
-            "Sei così nerd che la tua vita sociale è un DLC a pagamento.",
-
-            "La tua voce è così acuta che spacca i vetri, e pure i timpani.",
-
-            "Hai più schermi tu che un cinema multisala, ma guardi solo il tuo riflesso.",
-
-            "Il tuo PC è così vecchio che ci gira solo il Solitario, e pure a scatti.",
-
-            "Sei un campione di League of Legends, ma solo contro i bot principianti.",
-
-            "La tua mira è così pessima che non colpisci nemmeno un elefante in un corridoio.",
-
-            "Hai più skin tu che buon senso, e sono tutte brutte.",
-
-            "Il tuo elo è così basso che sei in classifica con i sassi.",
-
-            "Sei così bravo a perdere che dovresti fare un tutorial.",
-
-            "La tua strategia di gioco è 'speriamo che vada bene', e non va mai bene.",
-
-            "Hai più rage-quit tu che partite giocate fino alla fine.",
-
-            "Il tuo microfono è così sensibile che registra anche i tuoi pensieri imbarazzanti.",
-
-            "Sei un maestro del clickbait, ma il tuo contenuto è vuoto.",
-
-            "La tua community è così piccola che potresti fare una videochiamata di gruppo.",
-
-            "Hai più energy drink tu che sangue nelle vene.",
-
-            "La tua stanza sembra un negozio di elettronica usato, e pure disordinato.",
-
-            "Sei così pigro che anche il tuo avatar in gioco si stanca di muoversi.",
-
-            "Hai più debiti tu che vittorie in carriera.",
-
-            "Il tuo umorismo è così di nicchia che solo tu lo capisci.",
-
-            "Sei un influencer, ma solo per la tua famiglia allargata.",
-
-            "La tua vita è un meme, ma di quelli che non fanno ridere nessuno.",
-
-            "Hai più notifiche tu che follower attivi.",
-
-            "Il tuo setup è RGB, ma la tua personalità è in bianco e nero.",
-
-            "Sei così scarso che anche i tuoi avversari si annoiano a batterti.",
-
-            "La tua autostima è più fragile di una connessione Wi-Fi pubblica.",
-
-            "Hai più bug tu che un gioco in alpha.",
-
-            "Il tuo stream è così interattivo che la chat si parla da sola.",
-
-            "Sei un collezionista di figuracce, non di figurine.",
-
-            "La tua pazienza è più sottile di un capello di Nanni.",
-
-            "Hai più scuse tu che un politico in campagna elettorale.",
-
-            "Il tuo stile è così unico che nessuno vuole copiarlo.",
-
-            "Sei un'icona... del fallimento.",
-
-            "La tua energia è pari a quella di una batteria scarica al 1%.",
-
-            "Hai più notifiche di Twitch che messaggi veri sul telefono.",
-
-            "Il tuo gameplay è così prevedibile che potrei scriverci un libro, ma nessuno lo leggerebbe.",
-
-            "Sei il motivo per cui Twitch ha inventato il tasto 'segnala'.",
-
-            "La tua faccia in webcam è più espressiva di un muro di cemento.",
-
-            "Hai più ritardi tu che un treno regionale in Italia.",
-
-            "Il tuo talento è così nascosto che nemmeno Google lo trova.",
-
-            "Sei un campione di 'nascondino' con il successo.",
-
-            "La tua voce è l'unica cosa che non ha bisogno di un filtro.",
-
-            "Hai più crisi esistenziali tu che ore di sonno.",
-
-            "Il tuo pubblico è così fedele che ti segue anche quando ti lavi i denti.",
-
-            "Sei un'ispirazione... per chi vuole fallire con stile.",
-
-            "La tua autoironia è l'unica cosa che funziona bene.",
-
-            "Hai più follower falsi tu che veri.",
-
-            "Il tuo sorriso è più raro di un drop leggendario.",
-
-            "Sei così pigro che il tuo pensiero più complesso è 'cosa mangio stasera?'.",
-
-            "La tua vita è un tutorial su come non avere una vita.",
-
-            "Hai più meme tu che argomenti di conversazione.",
-
-            "Il tuo PC è un dinosauro, e tu sei l'archeologo che lo usa.",
-
-            "Sei un maestro del 'rage-quit' silenzioso.",
-
-            "Laia fortuna è come il tuo Wi-Fi: debole e intermittente.",
-
-            "Hai più notifiche di spam tu che complimenti.",
-
-            "Il tuo stream è più vuoto di un concerto di musica classica per adolescenti.",
-
-            "Sei un esperto di giochi che nessuno conosce.",
-
-            "La tua carriera è un glitch, e pure brutto.",
-
-            "Hai più ore su Twitch che anni di vita.",
-
-            "Il tuo sonno è un mito, come la tua produttività.",
-
-            "Sei così bravo a parlare da solo che potresti fare il comico muto.",
-
-            "La tua creatività è come la tua connessione: a singhiozzo.",
-
-            "Hai più errori tu che un codice scritto da un bambino.",
-
-            "Il tuo carisma è pari a quello di un comodino.",
-
-            "Sei un'enciclopedia di cose inutili.",
-
-            "La tua vita è un beta test, e non sta andando bene.",
-
-            "Hai più snack tu che vitamine.",
-
-            "Il tuo futuro è più incerto di un lancio di dadi.",
-
-            "Sei così ottimista che credi ancora nei tuoi sub-goal.",
-
-            "La tua playlist è così vecchia che ci ballavano i dinosauri.",
-
-            "Hai più problemi tu che un libro di matematica.",
-
-            "Il tuo talento è un segreto ben custodito... da te stesso.",
-
-            "Sei un artista della procrastinazione.",
-
-            "La tua ambizione è più grande del tuo letto.",
-
-            "Hai più scuse tu che un avvocato senza scrupoli.",
-
-            "Il tuo stile è così unico che fa paura.",
-
-            "Sei un'opera d'arte incompresa, e pure brutta.",
-
-            "La tua motivazione è come il tuo Wi-Fi: un giorno c'è, un giorno no.",
-
-            "Hai più notifiche di aggiornamento che di messaggi.",
-
-            "Il tuo stream è un esperimento sociale sul silenzio.",
-
-            "Sei un guru del 'non fare niente'.",
-
-            "La tua vita è un bug, e non è stato ancora patchato.",
-
-            "Hai più caffeina tu che sangue.",
-
-            "Il tuo girovita è una leggenda metropolitana, nessuno l'ha mai visto per intero.",
-
-            "La tua taglia è 'formato famiglia' per una famiglia numerosa.",
-
-            "Sei l'unico che può fare ombra a un palazzo.",
-
-            "Sei interista? Ah, ecco perché sei abituato a vedere le cose dall'alto... del divano.",
-
-            "Il tuo amore per l'Inter è l'unica cosa che non crolla mai, a differenza della loro difesa.",
-
-            "Se sei interista, la tua vita è una continua attesa del prossimo Scudetto... o del prossimo crollo.",
-
-            "L'unica cosa più prevedibile di te è la sconfitta dell'Inter nei momenti cruciali.",
-
-            "Sei nato interista o sei caduto in una botte di sfortuna cosmica?",
-
-            "La tua fede interista è come la loro difesa: inesistente e piena di buchi.",
-
-            "Sei interista, spiega la differenza tra un gol e un'illusione ottica.",
-
-            "Quando l'Inter vince, è un miracolo. Quando perde, è martedì... o domenica, o mercoledì.",
-
-            "Sei interista, quindi sai bene cosa significa 'mai una gioia' nella vita.",
-
-            "La tua squadra è come il tuo cervello: a intermittenza e con qualche corto circuito.",
-
-            "Laia sofferenza da interista è più autentica del loro palmarès recente.",
-
-            "Sei così interista che il tuo colore preferito is the gray of football mediocrity.",
-
-            "L'unica cosa che l'Inter ti ha insegnato è la resilienza... alla delusione costante.",
-
-            "La tua passione per l'Inter è un'offesa al buon gusto calcistico.",
-
-            "Sei un interista? Scommetto che la tua unica vittoria è stata a Fantacalcio, e pure lì hai barato.",
-
-            "Il tuo alito è così fresco che potresti estinguere un incendio boschivo.",
-
-            "Fumi così tanto che i tuoi polmoni hanno la bandiera bianca e chiedono reinforzi.",
-
-            "Quando tossisci, sembra che un drago stia facendo il riscaldamento per un attacco nucleare.",
-
-            "Hai più catrame nei polmoni che l'asfalto della A1 dopo un temporale.",
-
-            "Sei l'unica persona che ha bisogno di un posacenere portatile per il naso, e uno per l'anima.",
-
-            "La tua voce è così roca che sembri un gargoyle con la bronchite cronica.",
-
-            "Fumi così tanto che potresti essere un fumogeno umano per le partite di calcio.",
-
-            "La tua vita è un pacchetto di sigarette: corta e piena di cenere, e pure un po' stropicciata.",
-
-            "Sei un fumatore incallito? Scommetto che il tuo medico ti saluta con 'ciao, canna fumaria umana!'.",
-
-            "Il tuo profumo preferito è 'cenere e rimpianto', con note di catrame.",
-
-            "Le tue dita sono più gialle di un evidenziatore scaduto da un decennio.",
-
-            "Hai più buchi nei vestiti tu che un formaggio svizzero dopo un attacco di topi.",
-
-            "La tua dipendenza è così forte che fumeresti anche l'aria... se fosse commestibile.",
-
-            "Il tuo respiro è una minaccia per l'ozono e per chiunque ti stia vicino.",
-
-            "Sei un pericolo pubblico per chiunque ti stia vicino, specialmente in un ambiente chiuso.",
-
-            "Passi più tempo a parlare con una webcam che con persone vere, e la webcam non ti risponde.",
-
-            "La tua carriera da streamer è come la tua connessione: piena di lag e disconnessioni improvvise.",
-
-            "Sei così famoso che hai 10 spettatori... e 8 sono tuoi parenti costretti a guardarti.",
-
-            "Il tuo gameplay è così emozionante che fa addormentare anche i bot di Twitch.",
-
-            "Hai più follower tu che un profilo fake su Instagram, e sono tutti account inattivi.",
-
-            "La tua interazione con il pubblico è come la tua vita sociale: un silenzio imbarazzante rotto solo da suoni di tastiera.",
-
-            "Sei uno streamer? Scommetto che il tuo 'lavoro' consiste nel guardare il tuo riflesso sullo schermo tutto il giorno.",
-
-            "Il tuo microfono è più pulito della tua reputazione online.",
-
-            "Sei così bravo a streamare che il tuo pubblico è composto solo da te stesso in un'altra finestra del browser.",
-
-            "La tua chat è più morta di un server di Fortnite nel 2050 dopo l'apocalisse.",
-
-            "Il tuo setup da gaming costa più del tuo affitto, ma il tuo reddito è zero.",
-
-            "L'unica cosa che streammi bene è la tua solitudine e la tua disperazione.",
-
-            "Hai più schermi tu che un centro di controllo aeroportuale, ma non sai dove guardare.",
-
-            "La tua voce da streamer è più fastidiosa di un allarme antincendio alle 3 del mattino.",
-
-            "Sei uno streamer? La tua vita è un tutorial su come non avere una vita sociale.",
-
-            "Otto anni in cucina e l'unica cosa che hai imparato è bruciare l'acqua... e i sogni.",
-
-            "Hai cucinato per 8 anni? E la gente è ancora viva? Miracolo della medicina moderna!",
-
-            "La tua cucina è un campo di battaglia, e il cibo è la vittima sacrificale.",
-
-            "Sei un cuoco da 8 anni? Scommetto che il tuo piatto forte è il toast bruciato accompagnato da lacrime.",
-
-            "Hai più ustioni tu che un drago sputafuoco dopo una giornata intensa.",
-
-            "La tua 'arte culinaria' fa rimpiangere la mensa scolastica, e non è un complimento.",
-
-            "Otto anni di esperienza e ancora non sai distinguere il sale dallo zucchero, o la carne dal cartone.",
-
-            "Il tuo cibo è così innovativo che nessuno sa cosa sia, né osa assaggiarlo.",
-
-            "Sei un cuoco? L'unica cosa che fai bene è l'ordinazione a domicilio per gli altri.",
-
-            "La tua specialità è far sparire il cibo... nel cestino, dopo un assaggio.",
-
-            "Hai più storie di fallimenti in cucina che ricette riuscite, e sono tutte epiche.",
-
-            "Laia cucina è un laboratorio di esperimenti falliti, con odori sospetti.",
-
-            "Otto anni di esperienza e il tuo cibo ha ancora il sapore di 'boh, forse è commestibile'.",
-
-            "Sei un cuoco? L'unica cosa che è 'gourmet' è il tuo ego smisurato.",
-
-            "La tua passione per la cucina è inversamente proporzionale al gusto del tuo cibo, purtroppo.",
-
-            "Sei stato in Australia? Ecco perché parli così strano, tra un morso di ragno e l'altro.",
-
-            "Hai vissuto in Australia? Scommetto che il tuo animale domestico era un canguro con un problema di rabbia.",
-
-            "L'Australia ti ha reso più resistente... alle zanzare giganti e ai coccodilli.",
-
-            "Sei così australiano che la tua idea di 'freddo' è 25 gradi e un cappotto leggero.",
-
-            "Hai più cicatrici da animali velenosi tu che un libro di storia naturale illustrato.",
-
-            "L'unica cosa che hai imparato in Australia è a correre veloce dagli animali che vogliono ucciderti.",
-
-            "Hai vissuto in Australia? Quindi la tua colazione è Vegemite e rimpianto perenne.",
-
-            "Sei tornato dall'Australia? Hai lasciato il tuo cervello lì, vero? Non si è più visto.",
-
-            "L'Australia ti ha dato una prospettiva unica... su quante cose possono ucciderti in un solo giorno.",
-
-            "Il tuo accento australiano è più finto di un koala che fa la dieta vegana.",
-
-            "Hai più storie di incontri ravvicinati con la fauna selvatica che con persone normali.",
-
-            "L'Australia ti ha insegnato a sopravvivere... ma non a socializzare con gli esseri umani.",
-
-            "La tua nostalgia per l'Australia è più grande della tua intelligenza, il che è preoccupante.",
-
-            "Sei stato in Australia? L'unica cosa che ti è rimasta è la paura irrazionale dei ragni.",
-
-            "Il tuo senso dell'orientamento è così pessimo che ti sei perso anche in Australia, nel deserto.",
-
-
-
-            // Playing with Pokémon
-
-            "Sei troppo vecchio per giocare a Pokémon, ma troppo giovane per avere una vita sociale.",
-
-            "I tuoi Pokémon sono più evoluti della tua personalità, che è rimasta a livello base.",
-
-            "Hai più carte Pokémon tu che una banca, e valgono meno.",
-
-            "L'unica cosa che catturi sono i Pokémon, non l'attenzione delle persone reali.",
-
-            "Sei un allenatore Pokémon? L'unica cosa che alleni è la tua pigrizia sul divano.",
-
-            "I tuoi Pokémon sono più forti delle tue argomentazioni in qualsiasi discussione.",
-
-            "Hai così tanti Pokémon che potresti aprire uno zoo... di peluche impolverati.",
-
-            "La tua passione per i Pokémon è l'unica cosa che non è cresciuta con te, è rimasta infantile.",
-
-            "Sei un maestro Pokémon? L'unica cosa che domini è il divano e il telecomando.",
-
-            "I tuoi Pokémon sono più reali dei tuoi amici, il che dice molto sulla tua vita.",
-
-            "La tua conoscenza dei Pokémon è enciclopedica, la tua conoscenza del mondo reale è pari a zero.",
-
-            "Passi più tempo a cercare Pokémon rari che a cercare un lavoro.",
-
-            "Sei così ossessionato dai Pokémon che parli con loro invece che con le persone.",
-
-            "La tua vita è un gioco Pokémon: piena di creature strane e poche interazioni significative.",
-
-            "Hai più badge tu che un boy scout, ma non hai mai messo piede fuori casa.",
-
-            "Hai più figurine doppie tu che neuroni funzionanti, e sono tutte di portieri di riserva.",
-
-            "Apri figurine? L'unica cosa che trovi è la delusione e la mancanza del tuo idolo.",
-
-            "La tua collezione di figurine è più grande del tuo futuro, e forse anche del tuo appartamento.",
-
-            "Hai più attaccanti tu che un allenatore di Serie Z, e sono tutti infortunati.",
-
-            "Sei così appassionato di figurine che il tuo portafoglio piange lacrime amare.",
-
-            "L'unica cosa che ti manca è il senso della realtà, e magari un attaccante forte.",
-
-            "Hai più album tu che una libreria, e sono tutti incompleti.",
-
-            "La tua vita è un'eterna ricerca della figurina mancante, come il senso della tua esistenza.",
-
-            "Sei un collezionista di figurine? L'unica cosa che collezioni sono i fallimenti e le doppie.",
-
-            "Laia passione per le figurine è l'unica cosa che ti rende interessante... per i bambini dell'asilo.",
-
-            "Hai più pacchetti di figurine aperti che conversazioni significative.",
-
-            "La tua abilità nel trovare figurine rare è pari alla tua abilità nel trovare un partner.",
-
-            "Sei così bravo ad aprire figurine che potresti fare il chirurgo... ma solo per le bustine.",
-
-            "La tua felicità dipende da un pezzo di carta con un calciatore sopra, che tristezza.",
-
-            "L'unica cosa che ti emoziona è trovare la figurina di un difensore sconosciuto.",
-
-
 
             // Battute a tema gay (aggiunte)
-
             "Sei così etero che non sai distinguere un arcobaleno da un semaforo.",
-
             "La tua vita è così dritta che non hai mai preso una curva, nemmeno in macchina.",
-
             "Sei così 'maschio' che ti spaventi del rosa... e dei gatti.",
-
             "Il tuo senso dello stile è così basic che anche un armadio di un etero cisgender ti fa concorrenza.",
-
             "Sei così poco gay che non sai nemmeno cosa sia un brunch.",
-
             "La tua idea di 'diversità' è scegliere tra due gusti di gelato alla vaniglia.",
-
             "Sei così etero che pensi che Lady Gaga sia un uomo.",
-
             "Hai più bandiere tu che un raduno di scout, ma nessuna è arcobaleno.",
-
             "La tua vita sentimentale è così piatta che sembra una linea retta su un elettrocardiogramma.",
-
             "Sei così 'normale' che la tua unica trasgressione è non mettere il calzino sinistro per primo.",
-
             "La tua playlist è così etero che include solo canzoni sull'amore non corrisposto e il rock classico.",
-
             "Sei così poco gay che non sai nemmeno chi sia RuPaul.",
-
             "La tua idea di un weekend divertente è guardare il calcio e lamentarti del traffico.",
-
             "Sei così etero che pensi che 'coming out' sia uscire di casa per comprare il pane.",
-
             "Hai più paure tu che un bambino al buio, e una di queste è il Pride Month.",
-
             "Sei così etero che ti senti a disagio anche a guardare due uomini che si stringono la mano in un film.",
-
             "La tua vita è così poco colorata che sembra un film in bianco e nero degli anni '50.",
-
             "Sei così etero che non capisci perché qualcuno dovrebbe volere più di un paio di scarpe.",
-
             "Hai più pregiudizi tu che un libro di storia riscritto da un negazionista.",
-
             "La tua mente è così chiusa che sembra una cassaforte senza combinazione.",
-
             "Sei così etero che pensi che 'gender fluid' sia un nuovo tipo di lubrificante per auto.",
-
             "La tua empatia è così limitata che non riesci a capire chi è diverso da te.",
-
             "Sei così poco gay che non hai mai ballato su una canzone di Cher.",
-
             "La tua vita è così noiosa che l'unico dramma che hai è quando finisce il latte.",
-
             "Hai più convinzioni tu che un fanatico religioso, e sono tutte sbagliate.",
-
             "Sei così etero che non sai cosa sia un 'drag queen' se non un camionista travestito.",
-
             "La tua apertura mentale è così stretta che non ci passa nemmeno un capello.",
-
             "Sei così poco gay che non hai mai usato una parola come 'slay' o 'werk'.",
-
             "La tua vita è un manuale di istruzioni, e non è nemmeno interessante da leggere.",
-
             "Hai più schemi mentali tu che un architetto, e sono tutti rigidi e obsoleti.",
 
-
-
             // Nuove battute su Nanni e le sue opinioni
-
             "Nanni, le tue opinioni sono così uniche che nemmeno la gravità le prende sul serio.",
-
             "Quando Nanni esprime un'opinione, il resto del mondo si chiede se abbiamo saltato una puntata della realtà.",
-
             "Le teorie di Nanni sono come i buchi neri: affascinanti, ma nessuno sa cosa ci sia dentro... o se abbiano senso.",
-
             "Nanni, hai più complotti in testa tu che un thriller di serie B.",
-
             "Sei così convinto delle tue idee che potresti vendere ghiaccio agli eschimesi, ma solo se credono che sia acqua solidificata da alieni.",
-
             "L'unica cosa più prevedibile delle tue opinioni è che saranno l'esatto contrario di tutto il resto.",
-
             "Nanni, il tuo punto di vista è così 'alternativo' che la realtà ti ha mandato una diffida.",
-
             "Quando Nanni parla, la logica si prende un giorno di ferie non retribuite.",
-
             "Le tue argomentazioni sono come i tuoi sogni: solo tu le capisci, e pure a fatica.",
-
             "Nanni, hai più certezze tu che un terrapiattista, e sono altrettanto fondate.",
-
             "Sei l'unico che può trasformare una discussione sul meteo in una polemica sulla cospirazione delle nuvole.",
-
             "Le tue opinioni sono come i tuoi calzini spaiati: esistono, ma nessuno sa perché.",
-
             "Nanni, la tua mente è un labirinto di idee che portano tutte a 'io ho ragione e voi no'.",
-
             "Hai più teorie stravaganti tu che un professore universitario in pensione e senza freni.",
-
             "Quando Nanni dice 'secondo me...', il mondo intero si prepara al colpo di scena più illogico della giornata.",
-
             "La tua capacità di trovare il pelo nell'uovo è così sviluppata che potresti fare l'investigatore di complotti culinari.",
-
             "Nanni, le tue opinioni sono come le previsioni del tempo: spesso sbagliate, ma dette con convinzione.",
-
             "Sei così bravo a creare polemiche che dovresti aprire un canale TV dedicato solo a te.",
-
             "La tua visione del mondo è così unica che dovresti brevettarla, ma nessuno la comprerebbe.",
-
             "Nanni, hai più convinzioni tu che un politico in campagna elettorale, e sono tutte slegate dalla realtà.",
-
             "Quando Nanni ha un'idea, la realtà si mette le mani nei capelli e si chiede 'perché a me?'",
-
             "Le tue opinioni sono come i tuoi vestiti: unici, ma a volte un po' fuori luogo.",
-
             "Nanni, sei l'unico che può discutere con uno specchio e uscirne convinto di aver vinto.",
-
             "Hai più polemiche in corpo tu che un forum di discussione su internet impazzito.",
-
             "La tua mente è un universo parallelo dove le tue opinioni sono sempre la verità assoluta, e il resto è un'illusione."
-
         ];
-
-
 
         // Alternative texts for the "Generate Offense" button
-
         const alternativeButtonTexts = [
-
             "Riprova",
-
             "Più cattivo",
-
             "Di nuovo dai",
-
             "... pefforza",
-
             "Ancora!",
-
             "Sforzati di più",
-
             "Dai, fammi ridere",
-
             "Non mi basta!",
-
             "Un'altra!",
-
             "Spingiti oltre",
-
-            "Nanni, dacci dentro!",
-
-            "Nanni, stupiscimi!",
-
-            "Tira fuori il Nanni che è in te!",
-
-            "Offesa Nanni-style!"
-
+            // Rimosse le opzioni che contengono "Nanni"
+            // "Nanni, dacci dentro!",
+            // "Nanni, stupiscimi!",
+            // "Tira fuori il Nanni che è in te!",
+            // "Offesa Nanni-style!"
         ];
-
         let currentButtonTextIndex = 0;
 
-
-
         // Function to update the "Generate Offense" button text
-
         function updateGenerateButtonText() {
-
             generateOffenseBtn.textContent = alternativeButtonTexts[currentButtonTextIndex];
-
             currentButtonTextIndex = (currentButtonTextIndex + 1) % alternativeButtonTexts.length;
-
         }
-
-
 
         // Event listener for the "Generate Offense" button
-
         generateOffenseBtn.addEventListener('click', () => {
-
             // Nasconde l'offesa precedente e il bottone copia prima di generarne una nuova
-
             offenseDisplay.classList.add('hidden');
-
             copyOffenseBtn.classList.add('hidden');
-
             generateOffenseBtn.disabled = true; // Disabilita il bottone durante la generazione
 
-
-
             // Genera un'offesa casuale istantaneamente
-
             const randomIndex = Math.floor(Math.random() * insults.length);
-
             offenseText.textContent = insults[randomIndex];
 
-
-
             // Mostra l'area dell'offesa e il bottone copia
-
             offenseDisplay.classList.remove('hidden');
-
             copyOffenseBtn.classList.remove('hidden');
-
             generateOffenseBtn.disabled = false; // Riabilita il bottone
 
-
-
             updateGenerateButtonText(); // Cambia il testo del bottone
-
         });
-
-
 
         // Event listener for the "Copy" button
-
         copyOffenseBtn.addEventListener('click', () => {
-
             const textToCopy = offenseText.textContent;
-
             const tempInput = document.createElement('textarea');
-
             tempInput.value = textToCopy;
-
             document.body.appendChild(tempInput);
-
             tempInput.select();
-
             document.execCommand('copy');
-
             document.body.removeChild(tempInput);
 
-
-
             // Optional: visual feedback for copying
-
             copyOffenseBtn.textContent = 'Copiato!';
-
             setTimeout(() => {
-
                 copyOffenseBtn.textContent = 'Copia';
-
             }, 1500);
-
         });
 
-
-
         // Funzioni per il cursore personalizzato (rimosse)
+        // function initializeCustomCursor() {
+        //     // Non fa nulla, il cursore è gestito dal CSS del body
+        // }
 
-        function initializeCustomCursor() {
-
-            // Non fa nulla, il cursore è gestito dal CSS del body
-
-        }
-
-
-
-        // Shader per l'effetto fluido/olografico (come in Maalavidaa)
-
+        // Shader per l'effetto fluido/olografico (come in Maalavidaa) - Rimosso
+        /*
         const vertexShader = `
-
             void main() {
-
                 gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-
             }
-
         `;
-
-
 
         const fragmentShader = `
-
             uniform float u_time;
-
             uniform vec2 u_mouse;
-
             uniform vec2 u_resolution;
-
             uniform vec3 u_fluid_color_1;
-
             uniform vec3 u_fluid_color_2;
-
             uniform vec3 u_fluid_color_3;
-
             uniform vec3 u_fluid_color_accent;
-
             uniform vec3 u_color_bg_dark_primary;
 
-
-
             // Simplex noise function (from https://github.com/ashima/webgl-noise/blob/master/src/noise3D.glsl)
-
             vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
-
             vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
-
             float snoise(vec3 v){
-
                 const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
-
                 const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
 
-
-
                 // First corner
-
                 vec3 i  = floor(v + dot(v, C.yyy) );
-
                 vec3 x0 =   v - i + dot(i, C.xxx) ;
 
-
-
                 // Other corners
-
                 vec3 g = step(x0.yzx, x0.xyz);
-
                 vec3 l = 1.0 - g;
-
                 vec3 i1 = min( g.xyz, l.zxy );
-
                 vec3 i2 = max( g.xyz, l.zxy );
 
-
-
                 vec3 x1 = x0 - i1 + C.xxx;
-
                 vec3 x2 = x0 - i2 + C.yyy;
-
                 vec3 x3 = x0 - D.yyy;
 
-
-
                 // Permutations
-
                 i = mod(i, 289.0 );
-
                 vec4 p = permute( permute( permute(
-
                             i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
-
                         + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
-
                         + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
 
-
-
                 // Gradients: 7x7 points over a square, mapped onto an octahedron.
-
                 vec4 j4 = 4.0 * sin(p/7.0);
 
-
-
                 vec4 gx = j4 * 0.005 + 0.001;
-
                 vec4 gy = j4 * 0.005 + 0.001;
-
                 vec4 gz = j4 * 0.005 + 0.001;
 
-
-
                 vec4 g0 = vec4(gx.x,gy.x,gz.x,0.0);
-
                 vec4 g1 = vec4(gx.y,gy.y,gz.y,0.0);
-
-                vec4 g2 = vec4(gx.z,gy.z,gz.z,0.0);
-
+                vec4 g2 = vec4(gz.z,gy.z,gz.z,0.0);
                 vec4 g3 = vec4(gx.w,gy.w,gz.w,0.0);
 
-
-
                 vec4 nz = taylorInvSqrt(vec4(dot(g0.xyz,g0.xyz), dot(g1.xyz,g1.xyz), dot(g2.xyz,g2.xyz), dot(g3.xyz,g3.xyz)));
-
                 g0.xyz *= nz.x;
-
                 g1.xyz *= nz.y;
-
                 g2.xyz *= nz.z;
-
                 g3.xyz *= nz.w;
 
-
-
                 //  Dot products for the 4 corners
-
                 vec4 m = max(0.5 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-
                 m = m * m;
-
                 return 105.0 * dot( m*m, vec4( dot(x0,g0.xyz), dot(x1,g1.xyz),
-
                                             dot(x2,g2.xyz), dot(x3,g3.xyz) ) );
-
             }
-
-
-
 
 
             void main() {
-
                 vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-
                 vec2 p = uv * 2.0 - 1.0; // Normalizza a -1 a 1
 
-
-
                 // Aggiungi influenza del mouse, scalata e smussata
-
                 vec2 mouse_influence = (u_mouse - 0.5) * 0.2; // Centra il mouse e scala l'influenza
-
                 p += mouse_influence;
 
-
-
                 // Anima strati di rumore per un effetto fluido e organico
-
                 float n1 = snoise(vec3(p * 2.0 + mouse_influence * 1.0, u_time * 0.08));
-
                 float n2 = snoise(vec3(p * 4.0 - mouse_influence * 1.5, u_time * 0.12 + 10.0));
-
                 float n3 = snoise(vec3(p * 8.0 + mouse_influence * 0.7, u_time * 0.18 + 20.0));
-
                 float n4 = snoise(vec3(p * 16.0 - mouse_influence * 2.0, u_time * 0.25 + 30.0));
 
-
-
                 // Combina i livelli di rumore per un effetto più complesso e "liquido"
-
                 float fluid = n1 * 0.4 + n2 * 0.3 + n3 * 0.2 + n4 * 0.1;
-
                 fluid = fluid * 0.5 + 0.5; // Normalizza a 0-1
 
-
-
                 // Mappa il valore fluido ai colori della palette più tenui
-
                 vec3 finalColor = mix(u_fluid_color_1, u_fluid_color_2, smoothstep(0.0, 0.5, fluid));
-
                 finalColor = mix(finalColor, u_fluid_color_3, smoothstep(0.5, 1.0, fluid));
 
-
-
                 // Aggiungi un accento di colore sottile basato su un altro strato di rumore
-
                 float accentNoise = snoise(vec3(p * 1.5, u_time * 0.03 + 50.0));
-
                 finalColor = mix(finalColor, u_fluid_color_accent, smoothstep(0.8, 1.0, accentNoise));
 
-
-
                 // Sfuma con il colore di sfondo scuro per un effetto più profondo e meno saturo
-
                 finalColor = mix(finalColor, u_color_bg_dark_primary, 0.4); // Regola il fattore di fusione per l'intensità
 
-
-
                 gl_FragColor = vec4(finalColor, 1.0);
-
             }
-
         `;
+        */
 
-
-
-        // Funzione per inizializzare la scena Three.js
-
+        // Funzione per inizializzare la scena Three.js - Rimosso
+        /*
         function initThreeJS() {
-
             const canvas = document.getElementById('background-canvas');
 
-
-
             // 1. Scena
-
             scene = new THREE.Scene();
 
-
-
             // 2. Camera (Orthographic per 2D che copre lo schermo)
-
             camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-
             camera.position.z = 1;
 
-
-
             // 3. Renderer
-
             renderer = new THREE.WebGLRenderer({ antialias: true, canvas: canvas });
-
             renderer.setSize(window.innerWidth, window.innerHeight);
-
             renderer.setPixelRatio(window.devicePixelRatio);
 
-
-
             // 4. Geometria (Un semplice piano che copre l'intera vista)
-
             const geometry = new THREE.PlaneGeometry(2, 2); // Un piano di 2x2 unità
 
-
-
             // 5. Materiale Shader
-
             material = new THREE.ShaderMaterial({
-
                 uniforms: {
-
                     u_time: { value: 0.0 },
-
                     u_mouse: { value: new THREE.Vector2(0.5, 0.5) }, // Normalizzato da 0 a 1
-
                     u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-
                     // Passa i colori della palette come uniformi vec3
-
                     u_fluid_color_1: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-1')) },
-
                     u_fluid_color_2: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-2')) },
-
                     u_fluid_color_3: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-3')) },
-
                     u_fluid_color_accent: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-accent')) },
-
                     u_color_bg_dark_primary: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--color-bg-dark-primary')) }
-
                 },
-
                 vertexShader: vertexShader,
-
                 fragmentShader: fragmentShader
-
             });
 
-
-
             mesh = new THREE.Mesh(geometry, material);
-
             scene.add(mesh);
 
-
-
             // Gestione del ridimensionamento della finestra
-
             window.addEventListener('resize', onWindowResize, false);
-
             // Gestione del movimento del mouse per l'interattività
-
             document.addEventListener('mousemove', onDocumentMouseMove, false);
-
             document.addEventListener('touchmove', onDocumentTouchMove, false);
-
         }
+        */
 
-
-
-        // Funzione per animare la scena Three.js
-
+        // Funzione per animare la scena Three.js - Rimosso
+        /*
         function animateThreeJS() {
-
             requestAnimationFrame(animateThreeJS);
 
-
-
             // Aggiorna il tempo nello shader
-
             material.uniforms.u_time.value = clock.getElapsedTime();
 
-
-
             // Smoothen mouse movement for a more fluid effect
-
             targetMouseX += (mouseX - targetMouseX) * 0.05;
-
             targetMouseY += (mouseY - targetMouseY) * 0.05;
 
-
-
             // Aggiorna la posizione del mouse nello shader (normalizzata da 0 a 1)
-
             material.uniforms.u_mouse.value.x = targetMouseX / window.innerWidth;
-
             material.uniforms.u_mouse.value.y = 1.0 - (targetMouseY / window.innerHeight); // Inverti Y per coordinate GLSL
 
-
-
             renderer.render(scene, camera);
-
         }
+        */
 
-
-
-        // Gestione del ridimensionamento della finestra
-
+        // Gestione del ridimensionamento della finestra - Rimosso
+        /*
         function onWindowResize() {
-
             renderer.setSize(window.innerWidth, window.innerHeight);
-
             material.uniforms.u_resolution.value.x = window.innerWidth;
-
             material.uniforms.u_resolution.value.y = window.innerHeight;
-
         }
+        */
 
-
-
-        // Gestione del movimento del mouse
-
+        // Gestione del movimento del mouse - Rimosso
+        /*
         function onDocumentMouseMove(event) {
-
             mouseX = event.clientX;
-
             mouseY = event.clientY;
-
         }
+        */
 
-
-
-        // Gestione del movimento touch
-
+        // Gestione del movimento touch - Rimosso
+        /*
         function onDocumentTouchMove(event) {
-
             if (event.touches.length === 1) {
-
                 event.preventDefault();
-
                 mouseX = event.touches[0].pageX;
-
                 mouseY = event.touches[0].pageY;
-
             }
-
         }
+        */
 
-
-
-        // Funzione per inizializzare tutti gli effetti dopo il caricamento iniziale
-
+        // Funzione per inizializzare tutti gli effetti dopo il caricamento iniziale - Rimosso
+        /*
         function initializeAllEffects() {
-
             initThreeJS();
-
             animateThreeJS();
-
         }
-
-
+        */
 
         // Gestione dell'animazione di caricamento iniziale
-
         function startInitialLoadingAnimation() {
-
             const loadingDuration = 2800; // Durata totale dell'animazione di caricamento
-
             
-
             setTimeout(() => {
-
                 loadingOverlay.classList.add('hidden');
-
                 mainContent.classList.add('visible');
-
-                initializeAllEffects(); // Inizializza tutti gli effetti dopo che il contenuto è visibile
-
+                // initializeAllEffects(); // Chiamata rimossa in quanto Three.js è stato rimosso
             }, loadingDuration);
-
         }
 
-
-
         // Avvia l'animazione di caricamento quando il DOM è completamente caricato
-
         document.addEventListener('DOMContentLoaded', startInitialLoadingAnimation);
-
     </script>
-
 </body>
-
 </html>
