@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nanni Gay 🙊</title> <link rel="icon" href="https://i.ibb.co/8gtYybxt/android-chrome-512x512.png" type="image/png"> <script src="https://cdn.tailwindcss.com"></script>
+    <title>Nanni Gay 🙊</title>
+    <link rel="icon" href="https://i.ibb.co/8gtYybxt/android-chrome-512x512.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Definizione dei colori personalizzati per il tema scuro hi-tech */
@@ -30,25 +32,12 @@
             color: var(--color-text-light); /* Testo chiaro su sfondo scuro */
             overflow-x: hidden; /* Evita lo scroll orizzontale */
             cursor: default; /* Cursore tradizionale bianco */
-            /* Rimosse le precedenti personalizzazioni di sfondo Three.js */
-            background-image: url('https://i.ibb.co/spgCHjDm/video-1080.gif'); /* 4. Sfondo GIF */
+            background-image: url('https://i.ibb.co/spgCHjDm/video-1080.gif'); /* Sfondo GIF */
             background-size: cover; /* Assicura che la GIF copra l'intero schermo */
             background-position: center; /* Centra la GIF */
             background-repeat: no-repeat; /* Evita la ripetizione della GIF */
             background-attachment: fixed; /* Rende la GIF fissa durante lo scroll */
         }
-
-        /* Canvas per lo sfondo Three.js rimosso */
-        /* #background-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            display: block;
-            pointer-events: none;
-        } */
 
         /* Stili per il contenitore principale */
         .main-container {
@@ -77,8 +66,8 @@
         /* Contenitore per l'immagine del personaggio e l'emoji */
         .profile-image-container {
             position: relative;
-            width: 90px; /* 3. Riduci di metà la dimensione */
-            height: 90px; /* 3. Riduci di metà la dimensione */
+            width: 90px; /* Riduci di metà la dimensione */
+            height: 90px; /* Riduci di metà la dimensione */
             margin: 0 auto 2rem;
         }
 
@@ -88,7 +77,7 @@
             width: 100%; /* Occupare il 100% del contenitore */
             height: 100%; /* Occupare il 100% del contenitore */
             object-fit: cover;
-            border: 4px solid var(--ui-accent-purple); /* 3. Bordo viola */
+            border: 4px solid var(--ui-accent-purple); /* Bordo viola */
             transition: transform 0.3s ease-in-out;
         }
         #person-image:hover {
@@ -324,12 +313,6 @@
         const copyOffenseBtn = document.getElementById('copy-offense-btn');
         const personImage = document.getElementById('person-image');
 
-        // Three.js Variables rimosse
-        // let scene, camera, renderer, material, mesh;
-        // let mouseX = 0, mouseY = 0;
-        // let targetMouseX = 0, targetMouseY = 0;
-        // const clock = new THREE.Clock();
-
         // List of insults (over 100 phrases)
         const insults = [
             // Obesity / Walrus / Pit
@@ -550,11 +533,6 @@
             "Non mi basta!",
             "Un'altra!",
             "Spingiti oltre",
-            // Rimosse le opzioni che contengono "Nanni"
-            // "Nanni, dacci dentro!",
-            // "Nanni, stupiscimi!",
-            // "Tira fuori il Nanni che è in te!",
-            // "Offesa Nanni-style!"
         ];
         let currentButtonTextIndex = 0;
 
@@ -585,7 +563,8 @@
 
         // Event listener for the "Copy" button
         copyOffenseBtn.addEventListener('click', () => {
-            const textToCopy = offenseText.textContent;
+            // Aggiunge il testo desiderato alla fine dell'offesa
+            const textToCopy = offenseText.textContent + ' – generato su nanni.gay';
             const tempInput = document.createElement('textarea');
             tempInput.value = textToCopy;
             document.body.appendChild(tempInput);
@@ -600,221 +579,6 @@
             }, 1500);
         });
 
-        // Funzioni per il cursore personalizzato (rimosse)
-        // function initializeCustomCursor() {
-        //     // Non fa nulla, il cursore è gestito dal CSS del body
-        // }
-
-        // Shader per l'effetto fluido/olografico (come in Maalavidaa) - Rimosso
-        /*
-        const vertexShader = `
-            void main() {
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-            }
-        `;
-
-        const fragmentShader = `
-            uniform float u_time;
-            uniform vec2 u_mouse;
-            uniform vec2 u_resolution;
-            uniform vec3 u_fluid_color_1;
-            uniform vec3 u_fluid_color_2;
-            uniform vec3 u_fluid_color_3;
-            uniform vec3 u_fluid_color_accent;
-            uniform vec3 u_color_bg_dark_primary;
-
-            // Simplex noise function (from https://github.com/ashima/webgl-noise/blob/master/src/noise3D.glsl)
-            vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
-            vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
-            float snoise(vec3 v){
-                const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
-                const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
-
-                // First corner
-                vec3 i  = floor(v + dot(v, C.yyy) );
-                vec3 x0 =   v - i + dot(i, C.xxx) ;
-
-                // Other corners
-                vec3 g = step(x0.yzx, x0.xyz);
-                vec3 l = 1.0 - g;
-                vec3 i1 = min( g.xyz, l.zxy );
-                vec3 i2 = max( g.xyz, l.zxy );
-
-                vec3 x1 = x0 - i1 + C.xxx;
-                vec3 x2 = x0 - i2 + C.yyy;
-                vec3 x3 = x0 - D.yyy;
-
-                // Permutations
-                i = mod(i, 289.0 );
-                vec4 p = permute( permute( permute(
-                            i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
-                        + i.y + vec4(0.0, i1.y, i2.y, 1.0 ))
-                        + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
-
-                // Gradients: 7x7 points over a square, mapped onto an octahedron.
-                vec4 j4 = 4.0 * sin(p/7.0);
-
-                vec4 gx = j4 * 0.005 + 0.001;
-                vec4 gy = j4 * 0.005 + 0.001;
-                vec4 gz = j4 * 0.005 + 0.001;
-
-                vec4 g0 = vec4(gx.x,gy.x,gz.x,0.0);
-                vec4 g1 = vec4(gx.y,gy.y,gz.y,0.0);
-                vec4 g2 = vec4(gz.z,gy.z,gz.z,0.0);
-                vec4 g3 = vec4(gx.w,gy.w,gz.w,0.0);
-
-                vec4 nz = taylorInvSqrt(vec4(dot(g0.xyz,g0.xyz), dot(g1.xyz,g1.xyz), dot(g2.xyz,g2.xyz), dot(g3.xyz,g3.xyz)));
-                g0.xyz *= nz.x;
-                g1.xyz *= nz.y;
-                g2.xyz *= nz.z;
-                g3.xyz *= nz.w;
-
-                //  Dot products for the 4 corners
-                vec4 m = max(0.5 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
-                m = m * m;
-                return 105.0 * dot( m*m, vec4( dot(x0,g0.xyz), dot(x1,g1.xyz),
-                                            dot(x2,g2.xyz), dot(x3,g3.xyz) ) );
-            }
-
-
-            void main() {
-                vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-                vec2 p = uv * 2.0 - 1.0; // Normalizza a -1 a 1
-
-                // Aggiungi influenza del mouse, scalata e smussata
-                vec2 mouse_influence = (u_mouse - 0.5) * 0.2; // Centra il mouse e scala l'influenza
-                p += mouse_influence;
-
-                // Anima strati di rumore per un effetto fluido e organico
-                float n1 = snoise(vec3(p * 2.0 + mouse_influence * 1.0, u_time * 0.08));
-                float n2 = snoise(vec3(p * 4.0 - mouse_influence * 1.5, u_time * 0.12 + 10.0));
-                float n3 = snoise(vec3(p * 8.0 + mouse_influence * 0.7, u_time * 0.18 + 20.0));
-                float n4 = snoise(vec3(p * 16.0 - mouse_influence * 2.0, u_time * 0.25 + 30.0));
-
-                // Combina i livelli di rumore per un effetto più complesso e "liquido"
-                float fluid = n1 * 0.4 + n2 * 0.3 + n3 * 0.2 + n4 * 0.1;
-                fluid = fluid * 0.5 + 0.5; // Normalizza a 0-1
-
-                // Mappa il valore fluido ai colori della palette più tenui
-                vec3 finalColor = mix(u_fluid_color_1, u_fluid_color_2, smoothstep(0.0, 0.5, fluid));
-                finalColor = mix(finalColor, u_fluid_color_3, smoothstep(0.5, 1.0, fluid));
-
-                // Aggiungi un accento di colore sottile basato su un altro strato di rumore
-                float accentNoise = snoise(vec3(p * 1.5, u_time * 0.03 + 50.0));
-                finalColor = mix(finalColor, u_fluid_color_accent, smoothstep(0.8, 1.0, accentNoise));
-
-                // Sfuma con il colore di sfondo scuro per un effetto più profondo e meno saturo
-                finalColor = mix(finalColor, u_color_bg_dark_primary, 0.4); // Regola il fattore di fusione per l'intensità
-
-                gl_FragColor = vec4(finalColor, 1.0);
-            }
-        `;
-        */
-
-        // Funzione per inizializzare la scena Three.js - Rimosso
-        /*
-        function initThreeJS() {
-            const canvas = document.getElementById('background-canvas');
-
-            // 1. Scena
-            scene = new THREE.Scene();
-
-            // 2. Camera (Orthographic per 2D che copre lo schermo)
-            camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-            camera.position.z = 1;
-
-            // 3. Renderer
-            renderer = new THREE.WebGLRenderer({ antialias: true, canvas: canvas });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-
-            // 4. Geometria (Un semplice piano che copre l'intera vista)
-            const geometry = new THREE.PlaneGeometry(2, 2); // Un piano di 2x2 unità
-
-            // 5. Materiale Shader
-            material = new THREE.ShaderMaterial({
-                uniforms: {
-                    u_time: { value: 0.0 },
-                    u_mouse: { value: new THREE.Vector2(0.5, 0.5) }, // Normalizzato da 0 a 1
-                    u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-                    // Passa i colori della palette come uniformi vec3
-                    u_fluid_color_1: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-1')) },
-                    u_fluid_color_2: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-2')) },
-                    u_fluid_color_3: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-3')) },
-                    u_fluid_color_accent: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--fluid-color-accent')) },
-                    u_color_bg_dark_primary: { value: new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue('--color-bg-dark-primary')) }
-                },
-                vertexShader: vertexShader,
-                fragmentShader: fragmentShader
-            });
-
-            mesh = new THREE.Mesh(geometry, material);
-            scene.add(mesh);
-
-            // Gestione del ridimensionamento della finestra
-            window.addEventListener('resize', onWindowResize, false);
-            // Gestione del movimento del mouse per l'interattività
-            document.addEventListener('mousemove', onDocumentMouseMove, false);
-            document.addEventListener('touchmove', onDocumentTouchMove, false);
-        }
-        */
-
-        // Funzione per animare la scena Three.js - Rimosso
-        /*
-        function animateThreeJS() {
-            requestAnimationFrame(animateThreeJS);
-
-            // Aggiorna il tempo nello shader
-            material.uniforms.u_time.value = clock.getElapsedTime();
-
-            // Smoothen mouse movement for a more fluid effect
-            targetMouseX += (mouseX - targetMouseX) * 0.05;
-            targetMouseY += (mouseY - targetMouseY) * 0.05;
-
-            // Aggiorna la posizione del mouse nello shader (normalizzata da 0 a 1)
-            material.uniforms.u_mouse.value.x = targetMouseX / window.innerWidth;
-            material.uniforms.u_mouse.value.y = 1.0 - (targetMouseY / window.innerHeight); // Inverti Y per coordinate GLSL
-
-            renderer.render(scene, camera);
-        }
-        */
-
-        // Gestione del ridimensionamento della finestra - Rimosso
-        /*
-        function onWindowResize() {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            material.uniforms.u_resolution.value.x = window.innerWidth;
-            material.uniforms.u_resolution.value.y = window.innerHeight;
-        }
-        */
-
-        // Gestione del movimento del mouse - Rimosso
-        /*
-        function onDocumentMouseMove(event) {
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-        }
-        */
-
-        // Gestione del movimento touch - Rimosso
-        /*
-        function onDocumentTouchMove(event) {
-            if (event.touches.length === 1) {
-                event.preventDefault();
-                mouseX = event.touches[0].pageX;
-                mouseY = event.touches[0].pageY;
-            }
-        }
-        */
-
-        // Funzione per inizializzare tutti gli effetti dopo il caricamento iniziale - Rimosso
-        /*
-        function initializeAllEffects() {
-            initThreeJS();
-            animateThreeJS();
-        }
-        */
-
         // Gestione dell'animazione di caricamento iniziale
         function startInitialLoadingAnimation() {
             const loadingDuration = 2800; // Durata totale dell'animazione di caricamento
@@ -822,7 +586,6 @@
             setTimeout(() => {
                 loadingOverlay.classList.add('hidden');
                 mainContent.classList.add('visible');
-                // initializeAllEffects(); // Chiamata rimossa in quanto Three.js è stato rimosso
             }, loadingDuration);
         }
 
